@@ -104,6 +104,16 @@
     margin-top: 48px;
 }
 
+#cando .cando__video > div
+{
+    margin-top: 48px;
+}
+
+#cando .cando__video .cando__description
+{
+    margin-bottom: 24px;
+}
+
 #cando .cando__video .cando__video-events, #cando .cando__video .cando__video-tests
 {
     width: 100%;

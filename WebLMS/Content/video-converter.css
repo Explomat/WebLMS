@@ -1,9 +1,25 @@
 ﻿.video-converter
 {
     position: relative;
-    padding: 16px;
-    border: 2px solid #262626;
-    border-radius: 4px;
+}
+
+.video-converter .video-converter__description
+{
+    margin-bottom: 24px;
+}
+
+.video-converter .video-converter__input-file
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    text-align: right;
+    opacity: 0;
+    background: none;
+    cursor: inherit;
+    display: block;
 }
 
 .video-converter .video-converter__overlay-loading 
@@ -42,9 +58,10 @@
 .video-converter .video-converter__file-container
 {
     position: relative;
+    display: inline-block;
 }
 
-.video-converter .video-converter__file-container .video-converter__file-button
+.video-converter .video-converter__dowmload-video 
 {
-    display: inline-block;
+    display: none;
 }

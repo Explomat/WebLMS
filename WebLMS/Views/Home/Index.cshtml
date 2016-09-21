@@ -67,25 +67,40 @@
     <div class="container">
         <h1 class="cando__description">КАК МЫ ДЕЛАЕМ</h1>
         <div class="devider"></div>
-        <div class="video-converter">
+        <div class="video-converter border-container">
+            <a href="#" class="video-converter__download-video"></a>
+            <div class="video-converter__description">
+                <h4>Конвертируйте свои записи вебинаров в видео файлы</h4>
+                <span>(Не поддерживает захват экрана и запись с видеокамеры)</span>
+            </div>
             @using (Html.BeginForm("ConvertForm", "Home", FormMethod.Post, new { id="convertForm", enctype = "multipart/form-data" }))
             {
                 <div class="video-converter__overlay-loading"></div>
                 <div class="video-converter__file-container">
-                    <div tabindex="500" class="video-converter__file-button btn btn-file">
+                    <div class="video-converter__file-button btn btn-file">
                         <i class="glyphicon glyphicon-folder-open"></i>
                         &nbsp;  
-                        <span class="hidden-xs">Выберите .ZIP архив ...</span>
-                        <input name="fileUpload" accept="application/zip" type="file" class="file">
+                        <span class="video-converter__filename">Выберите .ZIP архив ...</span>
+                        <input name="fileUpload" accept="application/zip" type="file" class="video-converter__input-file">
                     </div>
                 </div>
                 
-                <input class="btn btn-primary" type="submit" name="Submit" id="SubmitMultiply" value="Конвертировать" />
+                <input class="btn btn-primary" type="submit" name="Submit" value="Конвертировать" />
             }
         </div>
         <div class="cando__video">
-            <iframe class="cando__video-events" src="https://www.youtube.com/embed/keb7ZOZvCaM" frameborder="0" allowfullscreen></iframe>
-            <iframe class="cando__video-tests" src="https://www.youtube.com/embed/wQqYSp7gw2w" frameborder="0" allowfullscreen></iframe>
+            <div class="border-container">
+                <div class="cando__description">
+                    <h4>Календарь мероприятий</h4>
+                </div>
+                <iframe class="cando__video-events" src="https://www.youtube.com/embed/keb7ZOZvCaM" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="border-container">
+                <div class="cando__description">
+                    <h4>Создание тестов</h4>
+                </div>
+                <iframe class="cando__video-tests" src="https://www.youtube.com/embed/wQqYSp7gw2w" frameborder="0" allowfullscreen></iframe>
+            </div>
         </div>
     </div>
 </div>

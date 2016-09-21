@@ -19,12 +19,15 @@
                 alert(data.error);
             }
             else if (data.filePath) {
-                var a = document.createElement('a');
-                document.body.appendChild(a);
+                var a = document.getElementsByClassName("video-converter__download-video")[0];
                 a.setAttribute('href', data.filePath);
-                a.style.display = 'none';
                 a.click();
             }
         })
+    })
+
+    $(".video-converter__input-file").change(function (e) {
+        var val = this.value.split('\\').pop().split('/').pop();
+        $(".video-converter__filename").text(val);
     })
 })

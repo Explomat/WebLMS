@@ -102,6 +102,10 @@ namespace WebLMS.Controllers
         [HttpPost]
         public ActionResult ConvertForm(HttpPostedFileBase fileUpload)
         {
+            if (fileUpload == null || fileUpload.ContentLength == 0)
+            {
+                return Json(new { error = "Не выбран или поврежден файл!" } );
+            }
             using (MD5 md5 = MD5.Create())
             {
                 try
@@ -110,6 +114,10 @@ namespace WebLMS.Controllers
                     string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles");
                     string destFullDirectory = Path.Combine(destDirectory, hash);
                     string videoDirectory = Path.Combine(Path.Combine(destFullDirectory, "video"));
+                    if (!Directory.Exists(destDirectory))
+                    {
+                        Directory.CreateDirectory(destDirectory);
+                    }
                     Directory.CreateDirectory(destFullDirectory);
                     Directory.CreateDirectory(videoDirectory);
                     this.Unzip(fileUpload.InputStream, destFullDirectory);
@@ -125,12 +133,7 @@ namespace WebLMS.Controllers
                 }
                 catch (Exception e)
                 {
-                    return Json(
-                        new
-                        {
-                            error = e.Message
-                        }
-                    );
+                    return Json(new { error = e.Message });
                 }
                 
 

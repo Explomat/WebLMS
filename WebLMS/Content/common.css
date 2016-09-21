@@ -124,15 +124,9 @@ label.checkbox-label::before
     transform-origin: 100% 100%;
 }
 
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    text-align: right;
-    opacity: 0;
-    background: none;
-    cursor: inherit;
-    display: block;
+.border-container 
+{
+    padding: 16px;
+    border: 2px solid #262626;
+    border-radius: 4px;
 }
