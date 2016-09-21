@@ -1,0 +1,36 @@
+﻿@using WebLMS.Models
+@model List<WebLMSForm>
+
+@{
+    ViewBag.Title = "Список заявок";
+}
+
+<div class="container">
+    <h2>Список заявок</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ФИО</th>
+                <th>Email</th>
+                <th>Телефон</th>
+                <th>Срочная разработка?</th>
+                <th>Описание задачи</th>
+                <th>Дата подачи</th>
+            </tr>
+        </thead>
+        <tbody>
+             @foreach (WebLMSForm form in Model)
+            {
+                <tr>
+                    <td>@form.Fullname</td>
+                    <td>@form.Email</td>
+                    <td>@form.Phone</td>
+                    <td>@form.IsQuickly</td>
+                    <td>@form.Description</td>
+                    <td>@form.RequestDate.ToLongDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

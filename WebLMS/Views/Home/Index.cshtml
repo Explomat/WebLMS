@@ -1,0 +1,91 @@
+﻿<div id="about">
+    <div class="container">
+        <h1 class="about__description">КТО МЫ</h1>
+        <div class="devider"></div>
+        <div class="about__content row">
+            <div class="col-md-12 col-xs-48">
+                <div class="about__content-first"></div>
+                <div class="about__content-first-position">
+                    <span class="about__content-first-position-name">Габдуллин Дамир</span>
+                    <span class="about__content-first-position-description">главный специалист по архитектуре системы WebTutor</span>
+                </div>
+            </div>
+            <div class="col-md-24 col-xs-48">
+                <div class="about__content-description">
+                    Два молодых специалиста решили объединить
+                    свои знания для создания интересных и качественных решений в области дистанционного обучения и HR процессов.
+                </div>
+            </div>
+            <div class="col-md-12 col-xs-48">
+                <div class="about__content-second"></div>
+                <div class="about__content-second-position">
+                    <span class="about__content-second-position-name">Матвеев Савва</span>
+                    <span class="about__content-second-position-description">главный программист</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="work">
+    <div class="container">
+        <h1 class="work__description">ЧТО МЫ ДЕЛАЕМ</h1>
+        <div class="devider"></div>
+        <div class="work__content row">
+            <div class="col-md-24">
+                <div class="work__img"></div>
+            </div>
+            <div class="col-md-24">
+                <div class="work__text">
+                    <label class="checkbox-label">
+                        SPA (Single Page Application) приложения, работающие быстро и без перезагрузки страницы.
+                    </label>
+                    <label class="checkbox-label">
+                        Дизайн портала, адаптивная верстка
+                    </label>
+                    <label class="checkbox-label">
+                        Шаблоны, уведомления
+                    </label>
+                    <label class="checkbox-label">
+                        Агенты, системные события, выгрузки
+                    </label>
+                    <label class="checkbox-label">
+                        Оценка, адаптация, развитие
+                    </label>
+                    <label class="checkbox-label">
+                        Оптимизация и систематизация базы данных
+                    </label>
+                    <label class="checkbox-label">
+                        Удаленное администрирование и поддержка
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="cando">
+    <div class="container">
+        <h1 class="cando__description">КАК МЫ ДЕЛАЕМ</h1>
+        <div class="devider"></div>
+        <div class="video-converter">
+            @using (Html.BeginForm("ConvertForm", "Home", FormMethod.Post, new { id="convertForm", enctype = "multipart/form-data" }))
+            {
+                <div class="video-converter__overlay-loading"></div>
+                <div class="video-converter__file-container">
+                    <div tabindex="500" class="video-converter__file-button btn btn-file">
+                        <i class="glyphicon glyphicon-folder-open"></i>
+                        &nbsp;  
+                        <span class="hidden-xs">Выберите .ZIP архив ...</span>
+                        <input name="fileUpload" accept="application/zip" type="file" class="file">
+                    </div>
+                </div>
+                
+                <input class="btn btn-primary" type="submit" name="Submit" id="SubmitMultiply" value="Конвертировать" />
+            }
+        </div>
+        <div class="cando__video">
+            <iframe class="cando__video-events" src="https://www.youtube.com/embed/keb7ZOZvCaM" frameborder="0" allowfullscreen></iframe>
+            <iframe class="cando__video-tests" src="https://www.youtube.com/embed/wQqYSp7gw2w" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>

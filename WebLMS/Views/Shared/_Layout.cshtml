@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="yandex-verification" content="e737ab0bfc443946" />
+        <meta name="description" content="Решения, которые работают. Напишите или позвоните нам, и мы ответим на все Ваши вопросы." />
+        <meta name="keywords" content="websoft, webtutor, e-learning, learning, WT, scorm, вебсофт,сдо, веб софт, веб тьютор, вебтьютор, агент, выгрузка, оценка по компетенциям, оценка персонала, электронная библиотека, электронные курсы, разработка курсов, доработки webtutor, разработка webtutor, дистанционное обучение"/>
+        <title>WebLMS - разработка под WebTutor. Автоматизация процессов под вебтьютор</title>
+        <link href="~/favicon.ico" rel="shortcut icon" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/Scripts/js")
+    </head>
+    <body>
+        <div class="header">
+            <div class="header__bg-overlay">
+                <div class="header__container container">
+                    <div class="row">
+                        <div class="col-md-9 col-sm-9 col-xs-16">
+                            <div class="logo-wrapper">
+                                <a class="logo" href="/">
+                                    WebLMS
+                                </a>
+                            </div>
+                            <span class="caption">Разработка под <strong class="caption-wt">WebTutor</strong></span>
+                        </div>
+                        <div class="header__contacts col-md-14 col-sm-15 col-xs-24">
+                            <div class="header__phones">
+                                <span class="glyphicon glyphicon-earphone"></span>
+                                <span>+7(916)135-45-65</span>
+                            </div>
+                            <div class="header__email">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                                <a class="mailto" href="mailto:info@weblms.ru">info@weblms.ru</a>
+                            </div>
+                        </div>
+                        <div class="header__mobile-menu col-sm-24 col-xs-8">
+                            <span class="header__mobile-menu-icon glyphicon glyphicon-align-justify"></span>
+                        </div>
+                        <nav class="header__menu col-md-25">
+                            <ul class="header__menu-list">
+                                <li class="header__menu-list-item">
+                                    <a class="header__menu-list-item-description" href="#about">КТО МЫ</a>
+                                </li>
+                                <li class="header__menu-list-item">
+                                    <a class="header__menu-list-item-description" href="#work">ЧТО МЫ ДЕЛАЕМ</a>
+                                </li>
+                                <li class="header__menu-list-item">
+                                    <a class="header__menu-list-item-description" href="#cando">КАК МЫ ДЕЛАЕМ</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="header__wrapper">
+                <div class="header__background">
+                    <div class="header__description container">
+                        <span class="header__description-about">
+                            Решения, которые работают
+                        </span>
+                        <button id='header__formModal' class="header__description-button btn btn-primary" data-toggle="modal" data-target="#formModal">ЗАКАЗАТЬ ДОРАБОТКУ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            @RenderSection("featured", required: false)
+            <section class="content__wrapper">
+                @RenderBody()
+            </section>
+            @Html.Partial("_FormModal")
+        </div>
+        @RenderSection("scripts", required: false)
+    </body>
+    <footer class="footer">
+        <div class="footer__wrapper container">
+            <div class="row">
+                <div class="footer__copyright col-md-48 col-xs-48">
+                    <span>&copy; WebLMS 2016. Все права защищены.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</html>

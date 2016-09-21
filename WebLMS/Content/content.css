@@ -1,0 +1,240 @@
+﻿#about, #work, #cando 
+{
+    text-align: center;
+    padding: 16px 0;
+}
+
+#about .about__description 
+{
+    font-size: 24px;
+}
+
+#about .about__content 
+{
+    margin-top: 48px;
+}
+
+#about .about__content .about__content-first,  #about .about__content .about__content-second
+{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    box-shadow: 1px 3px 16px 0px rgba(0,0,0,0.69);
+    margin-top: 8px;
+}
+
+#about .about__content .about__content-first
+{
+    margin: 0 auto;
+    background: url(../Images/damir.jpg) no-repeat;
+    background-size: cover;
+}
+
+#about .about__content .about__content-description 
+{
+    margin: 24px 0;
+}
+
+#about .about__content .about__content-first-position, #about .about__content .about__content-second-position 
+{
+    color: #444;
+    font-style: italic;
+    font-size: 1.4em;
+    display: inline-block;
+    margin-top: 8px;
+}
+
+#about .about__content .about__content-first-position .about__content-first-position-description 
+{
+    color: #7d7d7d;
+    font-size: .7em;
+    display: block;
+}
+
+#about .about__content .about__content-second-position .about__content-second-position-description 
+{
+    color: #7d7d7d;
+    font-size: .7em;
+    display: block;
+}
+
+#about .about__content .about__content-second
+{
+    margin: 0 auto;
+    background: url(../Images/savva.jpg) no-repeat;
+    background-size: cover;
+}
+
+
+#work 
+{
+    background-color: #262626;
+    color: #fff;
+}
+
+#work .work__description 
+{
+    font-size: 24px;
+}
+
+#work .work__content 
+{
+    margin-top: 48px;
+}
+
+#work .work__content .work__img 
+{
+    background: url(../Images/cando.jpg) no-repeat;
+    background-size: cover;
+    border-radius: 6px;
+    height: 400px;
+    -webkit-box-shadow: 1px 3px 16px 0px rgba(0,0,0,0.69);
+    -moz-box-shadow: 1px 3px 16px 0px rgba(0,0,0,0.69);
+    box-shadow: 1px 3px 16px 0px rgba(0,0,0,0.69);
+}
+
+#work .work__content .work__text 
+{
+    margin-top: 24px;
+    word-break: break-all;
+}
+
+#cando .cando__video
+{
+    margin-top: 48px;
+}
+
+#cando .cando__video .cando__video-events, #cando .cando__video .cando__video-tests
+{
+    width: 100%;
+    height:480px;
+}
+
+#cando .cando__description 
+{
+    font-size: 24px;
+}
+
+/*--------------footer-------------*/
+.footer 
+{
+    background: #262626;
+    z-index: 1;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+}
+
+.footer .footer__wrapper 
+{
+    padding-top: 6.5px;
+}
+
+.footer .footer__contacts 
+{
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.footer .footer__copyright 
+{
+    color: #fff;
+    font-size: 11px;
+}
+
+/*-------------media-----------*/
+@media (min-width: 992px) 
+{
+    
+    .logo-wrapper 
+    {
+        line-height: 60px;
+    }
+    
+    .logo 
+    {
+        font-size: xx-large !important;
+        color: #fff !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        background: none !important;
+        border: 4px solid #fff !important;
+        border-radius: 12px !important;
+        padding: 10px !important;
+    }
+    .caption 
+    {
+        font-size: 13px !important;
+    }
+    
+    .header .header__bg-overlay .header__container .header__contacts 
+    {
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    
+    .header .header__wrapper .header__background .header__description .header__description-about 
+    {
+        font-size: 2.6em;
+    }
+    .header .header__wrapper .header__background .header__description .header__description-button 
+    {
+        font-size: 1.6em;
+    }
+    
+    .header__menu 
+    {
+        display: block;
+        position: initial;
+        right: 0;
+        top: 100px;
+        background-color: #262626;
+        line-height: 60px;
+    }
+    .header__menu .header__menu-list 
+    {
+        font-size: 1.3em;
+        font-weight: 600;
+        margin: 0 0 5px;
+        padding: 0;
+        text-align: right;
+        position: initial;
+    }
+    .header__mobile-menu
+    {
+        display: none;
+    }
+    .header__menu .header__menu-list .header__menu-list-item
+    {
+        display: inline;
+    }
+    
+    #about .about__description, #work .work__description, #cando .cando__description 
+    {
+        font-size: 36px;
+    }
+    
+    #about .about__content .about__content-first 
+    {
+        float: left;
+    }
+    #about .about__content .about__content-second  
+    {
+        float: right;
+    }
+    
+    #work .work__content .work__text 
+    {
+        margin-top: 0px;
+    }
+    
+    .footer .footer__contacts
+    {
+        font-size: 16px;
+    }
+    
+    .footer .footer__copyright 
+    {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,55 @@
+﻿.form-modal 
+{
+}
+
+.form-modal  .form-modal__title
+{
+    text-align: center;
+    font-weight: bold;
+}
+
+.form-modal  .form-modal__block 
+{
+    margin-bottom: 24px;
+}
+
+.form-modal  .form-modal__block.form-modal__block--top
+{
+    margin-bottom: 24px;
+    margin-top: 48px;
+}
+
+
+.form-modal .form-modal__block  .form-modal__description 
+{
+    display: block;
+    font-weight: normal;
+    
+    vertical-align: top;
+    color: #000000;
+    font-weight: normal;
+    line-height: 29px;
+    text-align: left;
+    margin-right: 11px;
+    font-size: 16px;
+}
+
+.form-modal .form-modal__block .form-modal__input-value
+{
+    width: 100%;
+}
+
+.form-modal .form-modal__block .form-modal__is-quickly-value
+{
+    margin-left: 16px;
+}
+
+.form-modal .form-modal__block .form-modal__input-value--incorrect
+{
+    border: 1px solid #ff0000;
+}
+
+.form-modal .form-modal__block .form-modal__description-value 
+{
+    resize: none;
+}

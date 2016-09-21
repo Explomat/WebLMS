@@ -1,0 +1,48 @@
+﻿<form class="form-modal" action="/Home/CreateForm" method=post>
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title form-modal__title">Опишите задачу</h4>
+          </div>
+          <div class="modal-body clearfix">
+            <div>
+                <div class="col-md-24">
+                    <div class="form-modal__block">
+                        <label class="form-modal__description">Ваше имя *</label>
+                        <input class="form-modal__input-value form-modal__fullname-value" type=text name="Fullname"/>
+                    </div>
+                    <div class="form-modal__block">
+                        <label class="form-modal__description">Ваш email *</label>
+                        <input class="form-modal__input-value form-modal__email-value" type=text name="Email"/>
+                    </div>
+                </div>
+                <div class="col-md-24">
+                    <div class="form-modal__block">
+                        <label class="form-modal__description">Ваш телефон *</label>
+                        <input class="form-modal__input-value form-modal__phone-value" type=text name="Phone"/>
+                    </div>
+                    <div class="form-modal__block form-modal__block--top">
+                        <label class="form-modal__description">
+                            Срочная разработка?
+                            <input class="form-modal__is-quickly-value" type=checkbox />
+                            <input class="form-modal__is-quickly-value-hidden" type="hidden" name="IsQuickly" value="false" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-modal__block col-md-48">
+                <label class="form-modal__description">Опишите задачу *</label>
+                <textarea rows=8 class="form-modal__input-value form-modal__description-value" name="Description"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input id="form-modal__submit" type="submit" class="btn btn-primary" value="Отправить"/>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>

@@ -1,0 +1,50 @@
+﻿.video-converter
+{
+    position: relative;
+    padding: 16px;
+    border: 2px solid #262626;
+    border-radius: 4px;
+}
+
+.video-converter .video-converter__overlay-loading 
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(91, 91, 91, 0.26);
+    z-index: 150;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.video-converter .video-converter__overlay-loading:before 
+{
+    content: "";
+    position: absolute;
+    background-image: url("/Images/loading.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    display: block;
+    width: 32px;
+    height: 32px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.video-converter .video-converter__overlay-loading.video-converter__overlay-loading--show 
+{
+    display: block;
+}
+
+.video-converter .video-converter__file-container
+{
+    position: relative;
+}
+
+.video-converter .video-converter__file-container .video-converter__file-button
+{
+    display: inline-block;
+}

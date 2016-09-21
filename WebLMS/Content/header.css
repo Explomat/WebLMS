@@ -1,0 +1,123 @@
+﻿
+/*---------------header----------------------------*/
+
+.header .header__bg-overlay 
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #262626; /*rgba(0, 0, 0, 0.4);*/
+    z-index: 1;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.2)!important;
+    min-width: 320px;
+}
+
+.header .header__bg-overlay .header__container
+{
+    padding-top: 6.5px;
+    height: 100%;
+}
+
+.header .header__bg-overlay .header__container .header__contacts 
+{
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.header .header__wrapper .header__background 
+{
+    background: url(../Images/bg.jpg) no-repeat;
+    background-size: cover;
+    height: 600px;
+    position: relative;
+}
+
+.header .header__wrapper .header__background:before 
+{
+    background: rgba(0, 0, 0, 0.6);
+    content: "";
+    height: 100%;
+    left: 0;
+    filter: alpha(opacity=80);
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.header .header__background .header__description 
+{
+    position: relative;
+    text-align: center;
+    padding-top: 250px;
+}
+
+.header .header__wrapper .header__background .header__description .header__description-button
+{
+    padding: 12px 24px;
+    font-size: 1em;
+    outline: none;
+}
+
+.header .header__wrapper .header__background .header__description .header__description-about 
+{
+    color: #fff;
+    font-size: 1.6em;
+    display: block;
+    margin-bottom: 24px;
+}
+
+/*-------------------------------------menu-----------------*/
+.header__mobile-menu 
+{
+    display: block;
+    font-size: 24px;
+    top: 12px;
+}
+
+.header__mobile-menu  .header__mobile-menu-icon
+{
+    float: right;
+}
+
+.header__menu 
+{
+    background-color: #262626;
+    display: none;
+    line-height: 40px;
+    min-height: 0px !important;
+}
+
+.header__menu.header__menu--display 
+{
+    display: block;
+}
+
+.header__menu .header__menu-list
+{
+    font-size: 0.9em;
+    font-weight: 600;
+    margin: 0 0 5px;
+    padding: 0;
+    text-align: right;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    background-color: #262626;
+}
+
+.header__menu .header__menu-list .header__menu-list-item
+{
+    display: block;
+    list-style: none;
+    padding: 0 15px;
+}
+
+.header__menu .header__menu-list .header__menu-list-item .header__menu-list-item-description
+{
+    background: none;
+    color: #fff;
+    text-decoration: none;
+}
