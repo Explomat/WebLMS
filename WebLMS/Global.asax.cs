@@ -20,14 +20,16 @@ namespace WebLMS
         private void LoadLibraries()
         {
             string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FfmpegNativeLibraries");
-            Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "avformat-53.dll"));
-            Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "avcodec-53.dll"));
             Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "avutil-51.dll"));
+            Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "avcodec-53.dll"));
+            Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "avformat-53.dll"));
+
+            Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "swresample-0.dll"));
             Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "swscale-2.dll"));
             Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "avfilter-2.dll"));
             Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "avdevice-53.dll"));
             Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "postproc-52.dll"));
-            Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "swresample-0.dll"));
+            
             
 
             //a = Win32NativeMethods.LoadLibrary(Path.Combine(destDirectory, "Aforge.Video.dll"));

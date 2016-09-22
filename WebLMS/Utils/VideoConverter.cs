@@ -12,6 +12,20 @@ namespace VClass
 {
     public class VideoConverter
     {
+        class DoubleFrames
+        {
+            public string Key { get; private set; }
+            public Frame Play { get; private set; }
+            public Frame Stop { get; private set; }
+
+            public DoubleFrames(string key, Frame play, Frame stop)
+            {
+                this.Key = key;
+                this.Play = play;
+                this.Stop = stop;
+            }
+        }
+
         Type VideoCodecType;
         Type VideFileWriterType;
         object VideoFileWriter;
@@ -36,6 +50,7 @@ namespace VClass
         {
             this.CheckArchiveCorrect();
             this.LoadXml();
+            //this.AddAudio();
             this.CreateMovie();
             return this.AddAudio();
         }
@@ -164,9 +179,85 @@ namespace VClass
             this.InvokeMethod("Close");
         }
 
+        private List<DoubleFrames> GetDoubleFrames()
+        {
+            List<Frame> playAudioFrames = this.model.Frames.Where(fr => (fr.Type == "action" & fr.Stype == "audio" & fr.Action == "play")).ToList<Frame>();
+            List<Frame> stopAudioFrames = this.model.Frames.Where(fr => (fr.Type == "action" & fr.Stype == "audio" & fr.Action == "stop")).ToList<Frame>();
+
+            List<DoubleFrames> dFrames = new List<DoubleFrames>();
+            foreach (Frame pFrame in playAudioFrames)
+            {
+                Frame stopFrame = stopAudioFrames.Where(fr => fr.Name == pFrame.Name).FirstOrDefault<Frame>();
+                if (stopFrame != null)
+                {
+                    dFrames.Add(new DoubleFrames(stopFrame.Name, pFrame, stopFrame));
+                    stopAudioFrames.Remove(stopFrame);
+                }
+            }
+            return dFrames;
+        }
+
+        private int GetAudioDuration(List<DoubleFrames> frames)
+        {
+            int duration = 0;
+            foreach (DoubleFrames df in frames)
+            {
+                duration += df.Stop.Time - df.Play.Time;
+            }
+            return duration;
+        }
+
         private string AddAudio()
         {
-            string flvFilePath = Directory.GetFiles(this.dataDirectoryPath, "*.flv").FirstOrDefault<string>();
+            FFMpegConverter converter = new FFMpegConverter();
+            List<DoubleFrames> frames = this.GetDoubleFrames();
+            var groupFrames = frames.GroupBy(df => df.Key);
+            int fullTime = this.model.Frames.Last().Time;
+            foreach (IGrouping<string, DoubleFrames> fr in groupFrames)
+            {
+                StringBuilder sb = new StringBuilder("-i " + fr.Key + ".flv -filter_complex \"");
+                var sortedFrames = fr.OrderBy(t => t.Play.Time).ToList<DoubleFrames>();
+                DoubleFrames firstPlayFrame = fr.FirstOrDefault<DoubleFrames>();
+                DoubleFrames lastStopFrame = fr.LastOrDefault<DoubleFrames>();
+                int duration = this.GetAudioDuration(sortedFrames);
+
+
+                if (firstPlayFrame != null & lastStopFrame != null)
+                {
+                    int firstStartTime = firstPlayFrame.Play.Time;
+                    int lastStoptime = lastStopFrame.Stop.Time;
+                    double leftAevalsrc = firstStartTime / 1000.0;
+                    double lastAevalsrc = (fullTime - lastStoptime) / 1000.0;
+
+                    sb.Append("aevalsrc=0:d=" + leftAevalsrc + "[aevalsrc0]; ");
+                    string concats = "[aevalsrc0]";
+
+                    int countFrames = sortedFrames.Count();
+                    List<double> middlesAevalsrc = new List<double>();
+
+                    double prevTime = 0;
+                    int i = 0, aevalsrc = 1;
+                    for (; i < countFrames - 1; i++, aevalsrc++)
+                    {
+                        DoubleFrames firstFrame = sortedFrames[i];
+                        DoubleFrames secondFrame = sortedFrames[i + 1];
+                        double durationFrame = (firstFrame.Stop.Time - firstFrame.Play.Time) / 1000.0;
+                        double middleAevalsrc = (secondFrame.Play.Time - firstFrame.Stop.Time) / 1000.0;
+                        double stopSeconds = (firstFrame.Stop.Time / 1000.0) - prevTime;
+                        sb.Append("[0:a]atrim=" + prevTime + ":" + durationFrame + "[aud" + i + "]; aevalsrc=" + (firstFrame.Stop.Time / 1000.0) + ":d=" + middleAevalsrc + "[aevalsrc" + aevalsrc + "]; ");
+                        concats += "[aud" + i + "][aevalsrc" + aevalsrc + "]";
+                        prevTime = durationFrame;
+                        middlesAevalsrc.Add(middleAevalsrc);
+                    }
+                    sb.Append("[0:a]atrim=" + prevTime + ":" + ((lastStopFrame.Stop.Time / 1000.0) - prevTime) + "[aud" + i + "]; aevalsrc=" + (lastStopFrame.Stop.Time / 1000.0) + ":d=" + (fullTime - lastStopFrame.Stop.Time) / 1000.0 + "[aevalsrc" + aevalsrc + "]; ");
+                    concats += "[aud" + i + "][aevalsrc" + aevalsrc + "]";
+                    sb.Append(concats + "concat=n=" + (countFrames + 3) + ":v=0:a=1[out]\" -map \"[out]\" -c:v copy output.wav");
+                }
+                string ccc = sb.ToString();
+            }
+            return null;
+
+            /*string flvFilePath = Directory.GetFiles(this.dataDirectoryPath, "*.flv").FirstOrDefault<string>();
             string outFilePath = null;
             if (flvFilePath != null)
             {
@@ -184,7 +275,7 @@ namespace VClass
                 File.Delete(oldFilePath);
                 outFilePath = filePathWithoutAudio;
             }
-            return outFilePath;
+            return outFilePath;*/
         }
     }
 }
