@@ -207,56 +207,98 @@ namespace VClass
             return duration;
         }
 
-        private string AddAudio()
+        private List<string> GetFFMPEGCommandsForInvokeAudio(string destDirectory, string ext)
         {
-            FFMpegConverter converter = new FFMpegConverter();
+            List<string> commands = new List<string>();
             List<DoubleFrames> frames = this.GetDoubleFrames();
             var groupFrames = frames.GroupBy(df => df.Key);
-            int fullTime = this.model.Frames.Last().Time;
+            int fullTime = model.Frames.Last().Time;
             foreach (IGrouping<string, DoubleFrames> fr in groupFrames)
             {
-                StringBuilder sb = new StringBuilder("-i " + fr.Key + ".flv -filter_complex \"");
-                var sortedFrames = fr.OrderBy(t => t.Play.Time).ToList<DoubleFrames>();
+                StringBuilder sb = new StringBuilder();
+                StringBuilder sbAevals = new StringBuilder();
                 DoubleFrames firstPlayFrame = fr.FirstOrDefault<DoubleFrames>();
                 DoubleFrames lastStopFrame = fr.LastOrDefault<DoubleFrames>();
-                int duration = this.GetAudioDuration(sortedFrames);
-
 
                 if (firstPlayFrame != null & lastStopFrame != null)
                 {
-                    int firstStartTime = firstPlayFrame.Play.Time;
-                    int lastStoptime = lastStopFrame.Stop.Time;
-                    double leftAevalsrc = firstStartTime / 1000.0;
-                    double lastAevalsrc = (fullTime - lastStoptime) / 1000.0;
+                    List<DoubleFrames> sortedFrames = fr.OrderBy(t => t.Play.Time).ToList<DoubleFrames>();
+                    int duration = this.GetAudioDuration(sortedFrames);
+                    double leftAevalsrc = firstPlayFrame.Play.Time / 1000.0;
+                    double lastAevalsrc = (fullTime - lastStopFrame.Stop.Time) / 1000.0;
 
-                    sb.Append("aevalsrc=0:d=" + leftAevalsrc + "[aevalsrc0]; ");
-                    string concats = "[aevalsrc0]";
+                    List<string> concats = new List<string>();
+                    sbAevals.Append("aevalsrc=0:d=" + leftAevalsrc.ToString().Replace(',', '.') + "[aevalsrc0]; ");
+                    concats.Add("[aevalsrc0]");
 
                     int countFrames = sortedFrames.Count();
-                    List<double> middlesAevalsrc = new List<double>();
 
                     double prevTime = 0;
-                    int i = 0, aevalsrc = 1;
-                    for (; i < countFrames - 1; i++, aevalsrc++)
+                    int i = 0;
+                    for (; i < countFrames - 1; i++)
                     {
                         DoubleFrames firstFrame = sortedFrames[i];
                         DoubleFrames secondFrame = sortedFrames[i + 1];
-                        double durationFrame = (firstFrame.Stop.Time - firstFrame.Play.Time) / 1000.0;
+                        double durationFrame = firstFrame.Stop.Time - firstFrame.Play.Time;
                         double middleAevalsrc = (secondFrame.Play.Time - firstFrame.Stop.Time) / 1000.0;
-                        double stopSeconds = (firstFrame.Stop.Time / 1000.0) - prevTime;
-                        sb.Append("[0:a]atrim=" + prevTime + ":" + durationFrame + "[aud" + i + "]; aevalsrc=" + (firstFrame.Stop.Time / 1000.0) + ":d=" + middleAevalsrc + "[aevalsrc" + aevalsrc + "]; ");
-                        concats += "[aud" + i + "][aevalsrc" + aevalsrc + "]";
+                        sb.Append(" -ss " + TimeSpan.FromMilliseconds(prevTime) + " -t " + TimeSpan.FromMilliseconds(durationFrame) + " -i " + Path.Combine(destDirectory, fr.Key + "_old." + ext));
+                        sbAevals.Append("aevalsrc=0:d=" + middleAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
+                        concats.AddRange(new string[] { "[" + i + "]", "[aevalsrc" + (i + 1) + "]" });
                         prevTime = durationFrame;
-                        middlesAevalsrc.Add(middleAevalsrc);
                     }
-                    sb.Append("[0:a]atrim=" + prevTime + ":" + ((lastStopFrame.Stop.Time / 1000.0) - prevTime) + "[aud" + i + "]; aevalsrc=" + (lastStopFrame.Stop.Time / 1000.0) + ":d=" + (fullTime - lastStopFrame.Stop.Time) / 1000.0 + "[aevalsrc" + aevalsrc + "]; ");
-                    concats += "[aud" + i + "][aevalsrc" + aevalsrc + "]";
-                    sb.Append(concats + "concat=n=" + (countFrames + 3) + ":v=0:a=1[out]\" -map \"[out]\" -c:v copy output.wav");
+                    sb.Append(" -ss " + TimeSpan.FromMilliseconds(prevTime) + " -t " + TimeSpan.FromMilliseconds(duration - prevTime) + " -i " + Path.Combine(destDirectory, fr.Key + "_old." + ext));
+                    concats.AddRange(new string[] { "[" + i + "]", "[aevalsrc" + (i + 1) + "]" });
+                    sbAevals.Append("aevalsrc=0:d=" + lastAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
+                    commands.Add(sb.ToString() + " -filter_complex \"" + sbAevals.ToString() + " " + String.Join("", concats) + " concat=n=" + concats.Count + ":v=0:a=1[out]\" -map \"[out]\" -c:v copy " + Path.Combine(destDirectory, fr.Key + "." + ext));
                 }
-                string ccc = sb.ToString();
             }
-            return null;
+            return commands;
+        }
 
+        private void ConvertFlvToAudio(FFMpegConverter converter, string ext)
+        {
+            string[] flvFilePaths = Directory.GetFiles(this.dataDirectoryPath, "*.flv");
+            foreach (string flvPath in flvFilePaths)
+            {
+                string newWavPath = Path.Combine(this.destDirectoryPath, Path.GetFileNameWithoutExtension(flvPath) + "_old." + ext);
+                converter.ConvertMedia(flvPath, newWavPath, ext);
+            }
+        }
+
+        private string AddAudio()
+        {
+            string ext = "spx";
+            FFMpegConverter converter = new FFMpegConverter();
+            this.ConvertFlvToAudio(converter, ext);
+
+            List<string> commands = this.GetFFMPEGCommandsForInvokeAudio(this.destDirectoryPath, ext);
+            foreach (string command in commands)
+            {
+                converter.Invoke(command);
+            }
+
+            foreach (string file in Directory.GetFiles(this.destDirectoryPath, "*_old." + ext))
+            {
+                File.Delete(file);
+            }
+
+            string[] finalAudioPaths = Directory.GetFiles(this.destDirectoryPath, "*." + ext);
+            string outFilePath = null;
+            if (finalAudioPaths.Length > 0)
+            {
+                string destAudioPath = Path.Combine(this.destDirectoryPath, "audio." + ext);
+                string strCommand = "-i " + String.Join(" -i ", finalAudioPaths) + " -filter_complex \"amix=inputs=" + finalAudioPaths.Length + ":duration=first\" " + destAudioPath;
+                converter.Invoke(strCommand);
+
+                string filePathWithoutAudio = this.GetNewFilename();
+                string oldFilePath = Path.Combine(this.destDirectoryPath, Path.GetFileNameWithoutExtension(filePathWithoutAudio) + "_old" + ".avi");
+                File.Move(filePathWithoutAudio, oldFilePath);
+                converter.Invoke(String.Format("-i {0} -i {1} -codec copy -shortest {2}", "\"" + oldFilePath + "\"", destAudioPath, "\"" + filePathWithoutAudio + "\""));
+                File.Delete(destAudioPath);
+                File.Delete(oldFilePath);
+                outFilePath = filePathWithoutAudio;
+            }
+            return outFilePath;
             /*string flvFilePath = Directory.GetFiles(this.dataDirectoryPath, "*.flv").FirstOrDefault<string>();
             string outFilePath = null;
             if (flvFilePath != null)
