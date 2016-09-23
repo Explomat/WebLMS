@@ -267,7 +267,7 @@ namespace VClass
 
         private string AddAudio()
         {
-            string ext = "spx";
+            string ext = "wav";
             FFMpegConverter converter = new FFMpegConverter();
             this.ConvertFlvToAudio(converter, ext);
 
@@ -286,9 +286,12 @@ namespace VClass
             string outFilePath = null;
             if (finalAudioPaths.Length > 0)
             {
-                string destAudioPath = Path.Combine(this.destDirectoryPath, "audio." + ext);
-                string strCommand = "-i " + String.Join(" -i ", finalAudioPaths) + " -filter_complex \"amix=inputs=" + finalAudioPaths.Length + ":duration=first\" " + destAudioPath;
-                converter.Invoke(strCommand);
+                string destAudioPath = finalAudioPaths.Length > 1 ? Path.Combine(this.destDirectoryPath, "audio." + ext) : Path.Combine(this.destDirectoryPath, finalAudioPaths[0]);
+                if (finalAudioPaths.Length > 1)
+                {
+                    string strCommand = "-i " + String.Join(" -i ", finalAudioPaths) + " -filter_complex \"amix=inputs=" + finalAudioPaths.Length + ":duration=first\" " + destAudioPath;
+                    converter.Invoke(strCommand);
+                }
 
                 string filePathWithoutAudio = this.GetNewFilename();
                 string oldFilePath = Path.Combine(this.destDirectoryPath, Path.GetFileNameWithoutExtension(filePathWithoutAudio) + "_old" + ".avi");

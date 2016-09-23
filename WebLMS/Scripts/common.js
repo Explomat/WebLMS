@@ -14,7 +14,6 @@
         e.preventDefault();
         $(".video-converter__overlay-loading").addClass("video-converter__overlay-loading--show");
         $(this).ajaxSubmit(function (data) {
-            $(".video-converter__overlay-loading").removeClass("video-converter__overlay-loading--show");
             if (data.error) {
                 alert(data.error);
             }
@@ -23,6 +22,7 @@
                 a.setAttribute('href', data.filePath);
                 a.click();
             }
+            $(".video-converter__overlay-loading").removeClass("video-converter__overlay-loading--show");
         })
     })
 

@@ -99,6 +99,12 @@ namespace WebLMS.Controllers
             return View(_db.WebLMSForms.ToList());
         }
 
+        [HttpGet]
+        public FilePathResult GetVideoFile(string path)
+        {
+            return new FilePathResult(path, "video/avi");
+        }
+
         [HttpPost]
         public ActionResult ConvertForm(HttpPostedFileBase fileUpload)
         {
@@ -127,7 +133,7 @@ namespace WebLMS.Controllers
                     return Json(
                         new
                         {
-                            filePath = "/TempVideoFiles/" + hash + "/video/" + Path.GetFileName(outFilePath)
+                            filePath = "/Home/GetVideoFile/?path=/TempVideoFiles/" + hash + "/video/" + Path.GetFileName(outFilePath)
                         }
                     );
                 }
