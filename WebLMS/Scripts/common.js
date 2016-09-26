@@ -13,17 +13,26 @@
     $('#convertForm').submit(function (e) {
         e.preventDefault();
         $(".video-converter__overlay-loading").addClass("video-converter__overlay-loading--show");
-        $(this).ajaxSubmit(function (data) {
-            if (data.error) {
-                alert(data.error);
+
+        var options = {
+            timeout: 600000,
+            success: function (data) {
+                if (data.error) {
+                    alert(data.error);
+                }
+                else if (data.filePath) {
+                    var a = document.getElementsByClassName("video-converter__download-video")[0];
+                    a.setAttribute('href', data.filePath);
+                    a.click();
+                }
+                $(".video-converter__overlay-loading").removeClass("video-converter__overlay-loading--show");
+            },
+            error: function (err1, err2) {
+                $(".video-converter__overlay-loading").removeClass("video-converter__overlay-loading--show");
+                alert(err2);
             }
-            else if (data.filePath) {
-                var a = document.getElementsByClassName("video-converter__download-video")[0];
-                a.setAttribute('href', data.filePath);
-                a.click();
-            }
-            $(".video-converter__overlay-loading").removeClass("video-converter__overlay-loading--show");
-        })
+        }
+        $(this).ajaxSubmit(options);
     })
 
     $(".video-converter__input-file").change(function (e) {

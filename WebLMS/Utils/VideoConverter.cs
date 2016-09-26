@@ -228,7 +228,7 @@ namespace VClass
                     double lastAevalsrc = (fullTime - lastStopFrame.Stop.Time) / 1000.0;
 
                     List<string> concats = new List<string>();
-                    sbAevals.Append("aevalsrc=0:d=" + leftAevalsrc.ToString().Replace(',', '.') + "[aevalsrc0]; ");
+                    sbAevals.Append("aevalsrc=0:s=16000:d=" + leftAevalsrc.ToString().Replace(',', '.') + "[aevalsrc0]; ");
                     concats.Add("[aevalsrc0]");
 
                     int countFrames = sortedFrames.Count();
@@ -242,13 +242,13 @@ namespace VClass
                         double durationFrame = firstFrame.Stop.Time - firstFrame.Play.Time;
                         double middleAevalsrc = (secondFrame.Play.Time - firstFrame.Stop.Time) / 1000.0;
                         sb.Append(" -ss " + TimeSpan.FromMilliseconds(prevTime) + " -t " + TimeSpan.FromMilliseconds(durationFrame) + " -i " + Path.Combine(destDirectory, fr.Key + "_old." + ext));
-                        sbAevals.Append("aevalsrc=0:d=" + middleAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
+                        sbAevals.Append("aevalsrc=0:s=16000:d=" + middleAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
                         concats.AddRange(new string[] { "[" + i + "]", "[aevalsrc" + (i + 1) + "]" });
                         prevTime = durationFrame;
                     }
                     sb.Append(" -ss " + TimeSpan.FromMilliseconds(prevTime) + " -t " + TimeSpan.FromMilliseconds(duration - prevTime) + " -i " + Path.Combine(destDirectory, fr.Key + "_old." + ext));
                     concats.AddRange(new string[] { "[" + i + "]", "[aevalsrc" + (i + 1) + "]" });
-                    sbAevals.Append("aevalsrc=0:d=" + lastAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
+                    sbAevals.Append("aevalsrc=0:s=16000:d=" + lastAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
                     commands.Add(sb.ToString() + " -filter_complex \"" + sbAevals.ToString() + " " + String.Join("", concats) + " concat=n=" + concats.Count + ":v=0:a=1[out]\" -map \"[out]\" -c:v copy " + Path.Combine(destDirectory, fr.Key + "." + ext));
                 }
             }

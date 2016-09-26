@@ -100,9 +100,15 @@ namespace WebLMS.Controllers
         }
 
         [HttpGet]
-        public FilePathResult GetVideoFile(string path)
+        public FileContentResult GetVideoFile(string fileName, string filePath)
         {
-            return new FilePathResult(path, "video/avi");
+            string pathToFile = Server.MapPath(filePath);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(pathToFile);
+            try
+            {
+                System.IO.File.Delete(pathToFile);
+            }catch(Exception ex){}
+            return File(fileBytes, "video/avi", fileName);
         }
 
         [HttpPost]
@@ -133,7 +139,7 @@ namespace WebLMS.Controllers
                     return Json(
                         new
                         {
-                            filePath = "/Home/GetVideoFile/?path=/TempVideoFiles/" + hash + "/video/" + Path.GetFileName(outFilePath)
+                            filePath = "/Home/GetVideoFile/?fileName=" + Path.GetFileName(outFilePath) + "&filePath=/TempVideoFiles/" + hash + "/video/" + Path.GetFileName(outFilePath)
                         }
                     );
                 }
