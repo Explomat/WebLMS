@@ -15,7 +15,7 @@
         $(".video-converter__overlay-loading").addClass("video-converter__overlay-loading--show");
 
         var options = {
-            timeout: 600000,
+            timeout: 6000000,
             success: function (data) {
                 if (data.error) {
                     alert(data.error);
