@@ -23,7 +23,7 @@ using System.Net.Mime;
 
 namespace WebLMS.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AsyncController
     {
         private WebLMSContext _db = new WebLMSContext();
 
@@ -118,6 +118,8 @@ namespace WebLMS.Controllers
             {
                 return Json(new { error = "Не выбран или поврежден файл!" } );
             }
+            System.Net.WebRequest req = System.Net.WebRequest.Create("http://www.example.com");
+            RegisterAsyncTask(req.BeginGetResponse
             using (MD5 md5 = MD5.Create())
             {
                 try

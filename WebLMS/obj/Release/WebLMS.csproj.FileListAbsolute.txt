@@ -50,15 +50,7 @@ D:\repos\WebLMS\WebLMS\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
 D:\repos\WebLMS\WebLMS\obj\Release\WebLMS.dll
 D:\repos\WebLMS\WebLMS\obj\Release\WebLMS.pdb
 D:\repos\WebLMS\WebLMS\obj\Release\WebLMS.csprojResolveAssemblyReference.cache
-D:\repos\WebLMS\WebLMS\bin\NReco.VideoConverter.dll
-D:\repos\WebLMS\WebLMS\bin\AForge.Video.dll
 D:\repos\WebLMS\WebLMS\bin\AForge.dll
 D:\repos\WebLMS\WebLMS\bin\NReco.VideoConverter.xml
 D:\repos\WebLMS\WebLMS\bin\AForge.Video.xml
 D:\repos\WebLMS\WebLMS\bin\AForge.xml
-D:\repos\WebLMS\WebLMS\bin\System.Net.Http.Formatting.dll
-D:\repos\WebLMS\WebLMS\bin\System.Web.Http.dll
-D:\repos\WebLMS\WebLMS\bin\System.Web.Http.WebHost.dll
-D:\repos\WebLMS\WebLMS\bin\System.Net.Http.Formatting.xml
-D:\repos\WebLMS\WebLMS\bin\System.Web.Http.xml
-D:\repos\WebLMS\WebLMS\bin\System.Web.Http.WebHost.xml
