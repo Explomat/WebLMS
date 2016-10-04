@@ -12,18 +12,9 @@ using System.IO.Compression;
 using VClass;
 using System.Net.Mime;
 
-/*
- public Int64 Id { get; set; }
-        public string Fullname { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public bool? IsQuickly { get; set; }
-        public string Description { get; set; }
- */
-
 namespace WebLMS.Controllers
 {
-    public class HomeController : AsyncController
+    public class HomeController : Controller
     {
         private WebLMSContext _db = new WebLMSContext();
 
@@ -103,11 +94,17 @@ namespace WebLMS.Controllers
         public FileContentResult GetVideoFile(string fileName, string filePath)
         {
             string pathToFile = Server.MapPath(filePath);
+            if (fileName == null || filePath == null || !System.IO.File.Exists(pathToFile))
+            {
+                return null;
+            }
+
             byte[] fileBytes = System.IO.File.ReadAllBytes(pathToFile);
             try
             {
                 System.IO.File.Delete(pathToFile);
-            }catch(Exception ex){}
+            }
+            catch (Exception ex) { }
             return File(fileBytes, "video/avi", fileName);
         }
 
@@ -118,13 +115,6 @@ namespace WebLMS.Controllers
             {
                 return Json(new { error = "Не выбран или поврежден файл!" } );
             }
-            System.Net.WebRequest req = System.Net.WebRequest.Create("http://www.example.com");
-            RegisterAsyncTask(cb => req.BeginGetResponse(cb, null), delegate(IAsyncResult result)
-            {
-                System.Net.WebResponse response = req.EndGetResponse(result);
-                // Do something with the response here if you want
-                //RenderView("Index");
-            });
             using (MD5 md5 = MD5.Create())
             {
                 try
