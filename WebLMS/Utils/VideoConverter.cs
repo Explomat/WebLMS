@@ -31,19 +31,21 @@ namespace VClass
         object VideoFileWriter;
 
         int frameRate;
+        int sampleRate;
         string sourceDirectoryPath { get; set; }
         string destDirectoryPath { get; set; }
         string dataDirectoryPath { get; set; }
         string recordXmlPath { get; set; }
         XmlModel model;
 
-        public VideoConverter(string sourceDirectoryPath, string destDirectoryPath, int frameRate = 10)
+        public VideoConverter(string sourceDirectoryPath, string destDirectoryPath, int frameRate = 10, int sampleRate = 16000)
         {
             this.sourceDirectoryPath = sourceDirectoryPath;
             this.destDirectoryPath = destDirectoryPath;
             this.dataDirectoryPath = Path.Combine(this.sourceDirectoryPath, "data");
             this.recordXmlPath = Path.Combine(this.dataDirectoryPath, "record.xml");
             this.frameRate = frameRate;
+            this.sampleRate = sampleRate;
         }
 
         public string Start()
@@ -228,7 +230,7 @@ namespace VClass
                     double lastAevalsrc = (fullTime - lastStopFrame.Stop.Time) / 1000.0;
 
                     List<string> concats = new List<string>();
-                    sbAevals.Append("aevalsrc=0:s=16000:d=" + leftAevalsrc.ToString().Replace(',', '.') + "[aevalsrc0]; ");
+                    sbAevals.Append("aevalsrc=0:s=" + this.sampleRate +":d=" + leftAevalsrc.ToString().Replace(',', '.') + "[aevalsrc0]; ");
                     concats.Add("[aevalsrc0]");
 
                     int countFrames = sortedFrames.Count();
@@ -242,13 +244,13 @@ namespace VClass
                         double durationFrame = firstFrame.Stop.Time - firstFrame.Play.Time;
                         double middleAevalsrc = (secondFrame.Play.Time - firstFrame.Stop.Time) / 1000.0;
                         sb.Append(" -ss " + TimeSpan.FromMilliseconds(prevTime) + " -t " + TimeSpan.FromMilliseconds(durationFrame) + " -i " + Path.Combine(destDirectory, fr.Key + "_old." + ext));
-                        sbAevals.Append("aevalsrc=0:s=16000:d=" + middleAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
+                        sbAevals.Append("aevalsrc=0:s=" + this.sampleRate + ":d=" + middleAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
                         concats.AddRange(new string[] { "[" + i + "]", "[aevalsrc" + (i + 1) + "]" });
                         prevTime = durationFrame;
                     }
                     sb.Append(" -ss " + TimeSpan.FromMilliseconds(prevTime) + " -t " + TimeSpan.FromMilliseconds(duration - prevTime) + " -i " + Path.Combine(destDirectory, fr.Key + "_old." + ext));
                     concats.AddRange(new string[] { "[" + i + "]", "[aevalsrc" + (i + 1) + "]" });
-                    sbAevals.Append("aevalsrc=0:s=16000:d=" + lastAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
+                    sbAevals.Append("aevalsrc=0:s=" + this.sampleRate + ":d=" + lastAevalsrc.ToString().Replace(',', '.') + "[aevalsrc" + (i + 1) + "]; ");
                     commands.Add(sb.ToString() + " -filter_complex \"" + sbAevals.ToString() + " " + String.Join("", concats) + " concat=n=" + concats.Count + ":v=0:a=1[out]\" -map \"[out]\" -c:v copy " + Path.Combine(destDirectory, fr.Key + "." + ext));
                 }
             }
