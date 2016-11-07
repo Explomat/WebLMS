@@ -62,3 +62,6 @@ D:\repos\WebLMS\WebLMS\bin\AForge.Video.dll
 D:\repos\WebLMS\WebLMS\bin\AForge.dll
 D:\repos\WebLMS\WebLMS\bin\AForge.Video.xml
 D:\repos\WebLMS\WebLMS\bin\AForge.xml
+D:\repos\WebLMS\WebLMS\bin\AspNet.ScriptManager.jQuery.dll
+D:\repos\WebLMS\WebLMS\bin\Microsoft.AspNet.DynamicData.EFProvider.dll
+D:\repos\WebLMS\WebLMS\bin\Microsoft.AspNet.EntityDataSource.dll
