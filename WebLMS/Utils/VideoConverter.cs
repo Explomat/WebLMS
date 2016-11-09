@@ -38,7 +38,7 @@ namespace VClass
         string recordXmlPath { get; set; }
         XmlModel model;
 
-        public VideoConverter(string sourceDirectoryPath, string destDirectoryPath, int frameRate = 10, int sampleRate = 16000)
+        public VideoConverter(string sourceDirectoryPath, string destDirectoryPath, int frameRate = 60, int sampleRate = 16000)
         {
             this.sourceDirectoryPath = sourceDirectoryPath;
             this.destDirectoryPath = destDirectoryPath;
