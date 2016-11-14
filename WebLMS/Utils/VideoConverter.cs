@@ -38,7 +38,7 @@ namespace VClass
         string recordXmlPath { get; set; }
         XmlModel model;
 
-        public VideoConverter(string sourceDirectoryPath, string destDirectoryPath, int frameRate = 60, int sampleRate = 16000)
+        public VideoConverter(string sourceDirectoryPath, string destDirectoryPath, int frameRate = 25, int sampleRate = 22050)
         {
             this.sourceDirectoryPath = sourceDirectoryPath;
             this.destDirectoryPath = destDirectoryPath;
@@ -174,6 +174,7 @@ namespace VClass
                     string imageName = Path.GetFileName(imagePath);
                     Bitmap originalBitmap = new Bitmap(imagePath);
                     Bitmap bmpReduced = this.ReduceBitmap(originalBitmap, reduced, (int)fr.X, (int)fr.Y, fr.Visible, imageName);
+                    //bmpReduced.Save(Path.Combine(this.destDirectoryPath, Path.GetFileName(imagePath)));
 
                     this.InvokeMethod("WriteVideoFrame", new object[] { bmpReduced, TimeSpan.FromMilliseconds(fr.Time) });
                 }
