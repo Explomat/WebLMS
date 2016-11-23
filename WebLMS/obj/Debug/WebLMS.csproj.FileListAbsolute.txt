@@ -48,10 +48,8 @@ D:\repos\WebLMS\WebLMS\obj\Debug\WebLMS.csprojResolveAssemblyReference.cache
 D:\repos\WebLMS\WebLMS\obj\Debug\WebLMS.dll
 D:\repos\WebLMS\WebLMS\obj\Debug\WebLMS.pdb
 D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServer.dll
-D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServerCompact.dll
 D:\repos\WebLMS\WebLMS\bin\System.Data.SqlServerCe.dll
 D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServer.xml
-D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServerCompact.xml
 D:\repos\WebLMS\WebLMS\bin\NReco.VideoConverter.dll
 D:\repos\WebLMS\WebLMS\bin\NReco.VideoConverter.xml
 D:\repos\WebLMS\WebLMS\bin\AForge.Video.dll
@@ -80,3 +78,5 @@ D:\repos\WebLMS\WebLMS\bin\amd64\Microsoft.VC90.CRT\README_ENU.txt
 D:\repos\WebLMS\WebLMS\bin\amd64\Microsoft.VC90.CRT\msvcr90.dll
 D:\repos\WebLMS\WebLMS\bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
 D:\repos\WebLMS\WebLMS\bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
+D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServerCompact.dll
+D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServerCompact.xml

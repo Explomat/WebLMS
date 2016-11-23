@@ -6,5 +6,6 @@ namespace WebLMS.Models
     {
         public WebLMSContext() : base("WebLMS") { }
         public DbSet<WebLMSForm> WebLMSForms { get; set; }
+        public DbSet<File> Files { get; set; }
     }
 }

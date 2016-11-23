@@ -62,8 +62,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="EntityFramework.SqlServerCompact">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.DynamicData.EFProvider, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -449,14 +448,21 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\File.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Models\WebLMSContext.cs" />
     <Compile Include="Models\WebLMSForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Hash.cs" />
+    <Compile Include="Utils\Sender\EmailSender.cs" />
+    <Compile Include="Utils\Sender\FileSender.cs" />
+    <Compile Include="Utils\Sender\ISender.cs" />
+    <Compile Include="Utils\WebLMSThread.cs" />
     <Compile Include="Utils\VideoConverter.cs" />
     <Compile Include="Utils\Win32NativeMethods.cs" />
     <Compile Include="Utils\XmlModel.cs" />
     <Compile Include="Utils\XmlSettings.cs" />
+    <Compile Include="Utils\Zip.cs" />
     <Compile Include="Utils\ZipStorer.cs" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
@@ -552,6 +558,7 @@
     <Content Include="Scripts\formModal.js" />
     <Content Include="Scripts\mobileMenu.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="smtptester.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
