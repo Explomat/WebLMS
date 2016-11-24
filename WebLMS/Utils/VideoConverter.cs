@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using NReco.VideoConverter;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace VClass
 {
@@ -36,7 +37,9 @@ namespace VClass
         string destDirectoryPath { get; set; }
         string dataDirectoryPath { get; set; }
         string recordXmlPath { get; set; }
+        string ext { get; set; }
         XmlModel model;
+        FFMpegConverter converter = null;
 
         public VideoConverter(string sourceDirectoryPath, string destDirectoryPath, int frameRate = 25, int sampleRate = 22050)
         {
@@ -46,6 +49,8 @@ namespace VClass
             this.recordXmlPath = Path.Combine(this.dataDirectoryPath, "record.xml");
             this.frameRate = frameRate;
             this.sampleRate = sampleRate;
+            this.ext = ".mp4";
+            this.converter = new FFMpegConverter();
         }
 
         public string Start()
@@ -105,7 +110,7 @@ namespace VClass
 
         private string GetNewFilename()
         {
-            return Path.Combine(this.destDirectoryPath, this.model.Name + ".avi");
+            return Path.Combine(this.destDirectoryPath, this.model.Name + this.ext);
         }
 
         private void SetVideoFileWriter()
@@ -154,32 +159,65 @@ namespace VClass
             int height = this.model.Height % 2 == 0 ? this.model.Height : this.model.Height + 1;
 
             // create instance of video writer
-            this.SetVideoFileWriter();
+            //this.SetVideoFileWriter();
 
             // create new video file
             string destNewFilePath = this.GetNewFilename();
 
-            this.InvokeMethod("Open", new object[] { destNewFilePath, width, height, this.frameRate, this.GetVideoCodec("MPEG4") });
+            //this.InvokeMethod("Open", new object[] { destNewFilePath, width, height, this.frameRate, this.GetVideoCodec("MPEG4") });
 
             //vFWriter.Open(destNewFilePath, width, height, this.frameRate, VideoCodec.MPEG4);
             var imagePaths = this.GetFiles(this.dataDirectoryPath);
             List<Frame> frames = this.model.Frames.Where(f => f.Type == "image").ToList<Frame>();
             Bitmap reduced = new Bitmap(width, height);
 
+            string inputFileDurations = Path.Combine(this.destDirectoryPath, "input.txt");
+            FileStream fs = File.Open(inputFileDurations, FileMode.OpenOrCreate);
+            StreamWriter sw = new StreamWriter(fs);
+            Frame previousFrame = null;
+            Frame curFrame = null;
             foreach (Frame fr in frames)
             {
                 string imagePath = imagePaths.Where(img => Path.GetFileName(img) == fr.Name).FirstOrDefault<string>();
                 if (imagePath != null)
                 {
                     string imageName = Path.GetFileName(imagePath);
+                    string newFilePath = Path.Combine(this.destDirectoryPath, Path.GetFileName(imagePath));
                     Bitmap originalBitmap = new Bitmap(imagePath);
                     Bitmap bmpReduced = this.ReduceBitmap(originalBitmap, reduced, (int)fr.X, (int)fr.Y, fr.Visible, imageName);
-                    //bmpReduced.Save(Path.Combine(this.destDirectoryPath, Path.GetFileName(imagePath)));
+                    bmpReduced.Save(newFilePath);
 
-                    this.InvokeMethod("WriteVideoFrame", new object[] { bmpReduced, TimeSpan.FromMilliseconds(fr.Time) });
+                    if (previousFrame != null)
+                    {
+                        TimeSpan diff = TimeSpan.FromMilliseconds(fr.Time) - TimeSpan.FromMilliseconds(previousFrame.Time);
+                        sw.WriteLine("duration {0}", diff.TotalSeconds.ToString().Replace(',', '.'));
+                    }
+                    curFrame = previousFrame;
+                    sw.WriteLine("file '{0}'", newFilePath);
+                    previousFrame = fr;
+                    //this.InvokeMethod("WriteVideoFrame", new object[] { bmpReduced, TimeSpan.FromMilliseconds(fr.Time) });
                 }
             }
-            this.InvokeMethod("Close");
+            if (curFrame != null && previousFrame != null)
+            {
+                TimeSpan diff = TimeSpan.FromMilliseconds(previousFrame.Time) - TimeSpan.FromMilliseconds(curFrame.Time);
+                sw.WriteLine("duration {0}", diff.TotalSeconds.ToString().Replace(',', '.'));
+            }
+            sw.Close();
+            fs.Close();
+            this.converter.LogReceived += (o, args) =>
+            {
+                Debug.WriteLine(args.Data);
+            };
+            this.converter.ConvertProgress += (o, args) =>
+            {
+                Debug.WriteLine(args.Processed);
+            };
+            this.converter.Invoke(String.Format("-safe 0 -f concat -i \"{0}\" -c:v libx264 -preset ultrafast -crf 23 -pix_fmt yuv420p \"{1}\"", inputFileDurations, destNewFilePath));
+            //this.converter.Invoke(String.Format("-safe 0 -f concat -i {0} -c:v libx264 -preset ultrafast -crf 220 -pix_fmt yuv420p {1}", inputFileDurations, destNewFilePath));
+            
+            //converter.ConvertProgress += (object obj, NReco.VideoConverter.ConvertProgressEventArgs obj2) => {  };
+            //this.InvokeMethod("Close");
         }
 
         private List<DoubleFrames> GetDoubleFrames()
@@ -258,7 +296,7 @@ namespace VClass
             return commands;
         }
 
-        private void ConvertFlvToAudio(FFMpegConverter converter, string ext)
+        private void ConvertFlvToAudio(string ext, FFMpegConverter converter)
         {
             string[] flvFilePaths = Directory.GetFiles(this.dataDirectoryPath, "*.flv");
             foreach (string flvPath in flvFilePaths)
@@ -271,13 +309,13 @@ namespace VClass
         private string AddAudio()
         {
             string ext = "wav";
-            FFMpegConverter converter = new FFMpegConverter();
-            this.ConvertFlvToAudio(converter, ext);
+            this.ConvertFlvToAudio(ext, this.converter);
 
             List<string> commands = this.GetFFMPEGCommandsForInvokeAudio(this.destDirectoryPath, ext);
+            
             foreach (string command in commands)
             {
-                converter.Invoke(command);
+                this.converter.Invoke(command);
             }
 
             foreach (string file in Directory.GetFiles(this.destDirectoryPath, "*_old." + ext))
@@ -293,13 +331,14 @@ namespace VClass
                 if (finalAudioPaths.Length > 1)
                 {
                     string strCommand = "-i " + String.Join(" -i ", finalAudioPaths) + " -filter_complex \"amix=inputs=" + finalAudioPaths.Length + ":duration=first\" " + destAudioPath;
-                    converter.Invoke(strCommand);
+                    this.converter.Invoke(strCommand);
                 }
 
                 string filePathWithoutAudio = this.GetNewFilename();
-                string oldFilePath = Path.Combine(this.destDirectoryPath, Path.GetFileNameWithoutExtension(filePathWithoutAudio) + "_old" + ".avi");
+                string oldFilePath = Path.Combine(this.destDirectoryPath, Path.GetFileNameWithoutExtension(filePathWithoutAudio) + "_old" + this.ext);
                 File.Move(filePathWithoutAudio, oldFilePath);
-                converter.Invoke(String.Format("-i {0} -i {1} -codec copy -shortest {2}", "\"" + oldFilePath + "\"", destAudioPath, "\"" + filePathWithoutAudio + "\""));
+                this.converter.Invoke(String.Format("-i {0} -i {1} -c:v copy -c:a aac -strict experimental {2}", "\"" + oldFilePath + "\"", destAudioPath, "\"" + filePathWithoutAudio + "\""));
+                //this.converter.Invoke(String.Format("-i {0} -i {1} -codec copy -shortest {2}", "\"" + oldFilePath + "\"", destAudioPath, "\"" + filePathWithoutAudio + "\""));
                 File.Delete(destAudioPath);
                 File.Delete(oldFilePath);
                 outFilePath = filePathWithoutAudio;

@@ -17,12 +17,6 @@ using WebLMS.Utils.Sender;
 
 namespace WebLMS.Controllers
 {
-    enum Statuses
-    {
-        process,
-        error
-    };
-
     public class HomeController : Controller
     {
         private WebLMSContext _db = new WebLMSContext();
@@ -69,20 +63,27 @@ namespace WebLMS.Controllers
         }
 
         [HttpGet]
-        public void GetVideoFile(string hash)
+        public void GetVideoFile(string hash, Int64 id)
         {
             if (hash == null)
             {
+                Response.Write("Указаны неверные параметры!");
                 return;
             }
 
-            Models.File file = _db.Files.Where(f => f.Md5Hash == hash).FirstOrDefault<Models.File>();
+            Models.File file = _db.Files.Where(f => f.Id == id && f.Md5Hash == hash).FirstOrDefault<Models.File>();
             if (file == null)
             {
+                Response.Write("Указаны неверные параметры!");
                 return;
             }
             string filePath = Server.MapPath(file.FilePath);
             string fileName = Path.GetFileName(filePath);
+            if (!System.IO.File.Exists(filePath))
+            {
+                Response.Write("Файл не найден, т.к. уже удален с сервера!");
+                return;
+            }
             try
             {
                 using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -101,17 +102,19 @@ namespace WebLMS.Controllers
                 System.IO.File.Delete(filePath);
             }
 
-            catch (Exception ex) { Debug.WriteLine(ex); }
-            //return File(fileBytes, "video/avi", fileName);
+            catch (Exception ex) { Debug.WriteLine(ex); } 
         }
 
         [HttpPost]
-        public ActionResult ConvertForm(HttpPostedFileBase fileUpload)
+        public ActionResult ConvertForm(HttpPostedFileBase fileUpload, string email = "")
         {
-
             if (fileUpload == null || fileUpload.ContentLength == 0)
             {
                 return Json(new { error = "Не выбран или поврежден файл!" });
+            }
+            if (!Email.IsValidEmail(email))
+            {
+                return Json(new { error = "Неправильный email адрес!" });
             }
             using (MD5 md5 = MD5.Create())
             {
@@ -119,40 +122,61 @@ namespace WebLMS.Controllers
                 {
                     string hash = Hash.GetMD5Hash(md5, fileUpload.InputStream);
                     string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles");
-                    string destFullDirectory = Path.Combine(destDirectory, hash);
-                    string videoDirectory = Path.Combine(Path.Combine(destFullDirectory, "video"));
+                    string destFullDirectory = Path.Combine(destDirectory, email, hash);
+                    string videoDirectory = Path.Combine(destFullDirectory, "video");
                     if (!Directory.Exists(destDirectory))
                     {
                         Directory.CreateDirectory(destDirectory);
                     }
-                    Directory.CreateDirectory(destFullDirectory);
-                    Directory.CreateDirectory(videoDirectory);
-                    Zip.Unzip(fileUpload.InputStream, destFullDirectory);
-                    VideoConverter converter = new VideoConverter(destFullDirectory, videoDirectory);
+                    
+                    if (!Directory.Exists(destFullDirectory))
+                    {
+                        Directory.CreateDirectory(destFullDirectory);
+                        Directory.CreateDirectory(videoDirectory);
+                        Zip.Unzip(fileUpload.InputStream, destFullDirectory);
+                    }
 
                     WebLMSThread.StartBackgroundThread(() =>
                     {
-                        string outFilePath = converter.Start();
-                        Models.File file = new Models.File();
-                        file.Md5Hash = hash;
-                        file.FilePath = "/TempVideoFiles/" + hash + "/video/" + Path.GetFileName(outFilePath);
-                        _db.Files.Add(file);
-                        _db.SaveChanges();
-                        //RedirectToAction("GetVideoFile", new { hash = hash });
-                        ISender sender = new FileSender();
-                        sender.SendFileLink(Server.MapPath("/TempVideoFiles/" + hash + "/" +hash +".txt"), "/Home/GetVideoFile/?hash=" + hash);
-                        //SendFileLink("cabehok@inbox.ru", "/Home/GetVideoFile/?fileName=" + Path.GetFileName(outFilePath) + "&filePath=/TempVideoFiles/" + hash + "/video/" + Path.GetFileName(outFilePath));
+                        Exception ex = null;
+                        Models.File file = null;
+                        try
+                        {
+                            VideoConverter converter = new VideoConverter(destFullDirectory, videoDirectory);
+                            string outFilePath = converter.Start();
+                            file = new Models.File();
+                            file.Md5Hash = hash;
+                            file.FilePath = "/TempVideoFiles/" + hash + "/video/" + Path.GetFileName(outFilePath);
+                            file.EmailWhoConverted = email;
+                            _db.Files.Add(file);
+                            _db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            ex = e;
+                        }
+                        finally
+                        {
+                            string message = ex == null && file != null ?
+                            String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2} \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", Request.Url.Authority, hash, file.Id) : 
+                            String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", ex.Message);
+
+                            ISender sender = new EmailSender();
+                            sender.SendFileLink(email, message);
+                        }
+                        
                     });
                     return Json(
                         new
                         {
-                            status = Statuses.process
+                            status = "process",
+                            message = "Файл проходит обработку. Ссылку на скачивание Вы получите по почте!"
                         }
                     );
                 }
                 catch (Exception e)
                 {
-                    return Json(new { status = Statuses.error, error = e.Message });
+                    return Json(new { status = "error", error = "Произошла ошибка при извлечении архива, повторите попытку позже!" });
                 }
             }
         }

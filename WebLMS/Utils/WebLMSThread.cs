@@ -5,6 +5,7 @@ namespace WebLMS.Utils
 {
     public class WebLMSThread
     {
+
         public static void StartBackgroundThread(ThreadStart threadStart)
         {
             if (threadStart != null)

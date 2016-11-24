@@ -68,7 +68,7 @@ namespace WebLMS
 
         protected void Application_Start()
         {
-            this.LoadLibraries();
+            //this.LoadLibraries();
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

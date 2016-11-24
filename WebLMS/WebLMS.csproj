@@ -453,6 +453,7 @@
     <Compile Include="Models\WebLMSContext.cs" />
     <Compile Include="Models\WebLMSForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Email.cs" />
     <Compile Include="Utils\Hash.cs" />
     <Compile Include="Utils\Sender\EmailSender.cs" />
     <Compile Include="Utils\Sender\FileSender.cs" />
@@ -558,7 +559,6 @@
     <Content Include="Scripts\formModal.js" />
     <Content Include="Scripts\mobileMenu.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="smtptester.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

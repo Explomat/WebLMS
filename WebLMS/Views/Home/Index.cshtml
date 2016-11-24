@@ -50,7 +50,7 @@
                         Агенты, системные события, выгрузки
                     </label>
                     <label class="checkbox-label">
-                        Оценка, адаптация, развитие
+                        Оценка и адаптация персонала
                     </label>
                     <label class="checkbox-label">
                         Оптимизация и систематизация базы данных
@@ -81,9 +81,14 @@
                         <i class="glyphicon glyphicon-folder-open"></i>
                         &nbsp;  
                         <span class="video-converter__filename">Выберите .ZIP архив ...</span>
-                        <input name="fileUpload" accept="application/zip" type="file" class="video-converter__input-file">
+                        <input name="fileUpload" accept="application/zip" type="file" class="video-converter__input-file" />
                     </div>
                 </div>
+                <span>
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    &nbsp;  
+                    <input name="email" type="text" class="video-converter__email" placeholder="Email для ссылки на скачивание" />
+                </span>
                 
                 <input class="btn btn-primary" type="submit" name="Submit" value="Конвертировать" />
             }

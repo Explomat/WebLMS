@@ -11,7 +11,7 @@ namespace WebLMS.Utils.Sender
         {
             using (FileStream fs = File.Open(pathTo, FileMode.OpenOrCreate))
             {
-                byte[] toBytes = Encoding.ASCII.GetBytes(link);
+                byte[] toBytes = Encoding.UTF8.GetBytes(link);
                 fs.Write(toBytes, 0, toBytes.Length);
             }
         }

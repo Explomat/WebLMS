@@ -20,10 +20,8 @@
                 if (data.error) {
                     alert(data.error);
                 }
-                else if (data.filePath) {
-                    var a = document.getElementsByClassName("video-converter__download-video")[0];
-                    a.setAttribute('href', data.filePath);
-                    a.click();
+                else if (data.status && data.status === 'process' && data.message) {
+                    alert(data.message);
                 }
                 $(".video-converter__overlay-loading").removeClass("video-converter__overlay-loading--show");
             },
