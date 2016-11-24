@@ -136,13 +136,21 @@ namespace WebLMS.Controllers
                         Zip.Unzip(fileUpload.InputStream, destFullDirectory);
                     }
 
+                    VideoConverter converter = new VideoConverter(destFullDirectory, videoDirectory);
+                    string error = converter.CheckArchiveCorrect();
+                    if (error != null)
+                    {
+                        Directory.Delete(destFullDirectory);
+                        return Json(new { error = error });
+                    }
+
                     WebLMSThread.StartBackgroundThread(() =>
                     {
                         Exception ex = null;
                         Models.File file = null;
                         try
                         {
-                            VideoConverter converter = new VideoConverter(destFullDirectory, videoDirectory);
+                            
                             string outFilePath = converter.Start();
                             file = new Models.File();
                             file.Md5Hash = hash;

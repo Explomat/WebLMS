@@ -50,12 +50,11 @@ namespace VClass
             this.frameRate = frameRate;
             this.sampleRate = sampleRate;
             this.ext = ".mp4";
-            this.converter = new FFMpegConverter();
         }
 
         public string Start()
         {
-            this.CheckArchiveCorrect();
+            this.converter = new FFMpegConverter();
             this.LoadXml();
             //this.AddAudio();
             this.CreateMovie();
@@ -78,24 +77,25 @@ namespace VClass
             return reduced;
         }
 
-        private void CheckArchiveCorrect()
+        public string CheckArchiveCorrect()
         {
             if (!Directory.Exists(this.sourceDirectoryPath))
             {
-                throw new DirectoryNotFoundException("Не найдена корневая папка!");
+                return "Не найдена корневая папка!";
             }
             if (!Directory.Exists(this.dataDirectoryPath))
             {
-                throw new DirectoryNotFoundException("Не найдена папка \"data\" с изображениями!");
+                return "Не найдена папка \"data\" с изображениями!";
             }
             if (!File.Exists(this.recordXmlPath))
             {
-                throw new FileNotFoundException("Не найден файл record.xml!");
+                return "Не найден файл record.xml!";
             }
             if (!Directory.Exists(this.destDirectoryPath))
             {
-                throw new DirectoryNotFoundException("Не найдена папка записи!");
+                return "Не найдена папка записи!";
             }
+            return null;
         }
 
         private void LoadXml()
