@@ -80,3 +80,5 @@ D:\repos\WebLMS\WebLMS\bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
 D:\repos\WebLMS\WebLMS\bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
 D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServerCompact.dll
 D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServerCompact.xml
+D:\repos\WebLMS\WebLMS\bin\GemBox.Email.dll
+D:\repos\WebLMS\WebLMS\bin\GemBox.Email.xml

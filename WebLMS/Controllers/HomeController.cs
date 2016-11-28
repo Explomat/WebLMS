@@ -77,8 +77,12 @@ namespace WebLMS.Controllers
                 Response.Write("Указаны неверные параметры!");
                 return;
             }
+            file.IsDownloaded = true;
+            _db.SaveChanges();
+
             string filePath = Server.MapPath(file.FilePath);
-            string fileName = Path.GetFileName(filePath);
+            string ext = Path.GetExtension(filePath);
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
             if (!System.IO.File.Exists(filePath))
             {
                 Response.Write("Файл не найден, т.к. уже удален с сервера!");
@@ -90,7 +94,8 @@ namespace WebLMS.Controllers
                 {
                     Response.BufferOutput = false;   // to prevent buffering
                     Response.ContentType = "video/avi";
-                    Response.AddHeader("content-disposition", @"attachment;filename='"+fileName+"'");
+                    Response.AddHeader("Content-Length", fs.Length.ToString());
+                    Response.AddHeader("content-disposition", "attachment;filename=\"" + fileName + ext + "\"");
                     
                     byte[] buffer = new byte[4096];
                     int bytesRead = 0;
@@ -143,34 +148,60 @@ namespace WebLMS.Controllers
                         Directory.Delete(destFullDirectory);
                         return Json(new { error = error });
                     }
-
+                    string rootHost = Request.Url.Scheme + "://" + Request.Url.Authority;
+                    
                     WebLMSThread.StartBackgroundThread(() =>
                     {
                         Exception ex = null;
                         Models.File file = null;
                         try
                         {
-                            
                             string outFilePath = converter.Start();
                             file = new Models.File();
                             file.Md5Hash = hash;
-                            file.FilePath = "/TempVideoFiles/" + hash + "/video/" + Path.GetFileName(outFilePath);
+                            file.FilePath = "/TempVideoFiles/" + email + "/" + hash + "/video/" + Path.GetFileName(outFilePath); // Path.Combine(videoDirectory, Path.GetFileName(outFilePath));
                             file.EmailWhoConverted = email;
+                            file.Datetime = DateTime.Now;
                             _db.Files.Add(file);
                             _db.SaveChanges();
+                            //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "saved.txt"), "Saved!");
                         }
                         catch (Exception e)
                         {
+                            //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "catch.txt"), "Catch!");
                             ex = e;
                         }
                         finally
                         {
-                            string message = ex == null && file != null ?
-                            String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2} \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", Request.Url.Authority, hash, file.Id) : 
+                            //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finally.txt"), "Finally!");
+
+                            //string messageFor = "Ссылка на скачивание видеофайла: " + Request.Url.Authority + "/Home/GetVideoFile/?hash=" + hash + "&id=" + file.Id + " \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru";
+                            //string messageFor = "Ссылка на скачивание видеофайла: /Home/GetVideoFile/?hash=" + hash + "&id=" + file.Id + " После разового скачивания файл удалится с сервера.С уважением, компания WebLMS";
+                            string messageFor = ex == null && file != null ?
+                            String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2} \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, hash, file.Id) : 
                             String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", ex.Message);
 
-                            ISender sender = new EmailSender();
-                            sender.SendFileLink(email, message);
+                            //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finally1.txt"), "Finally1!");
+                            try
+                            {
+                                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finallyTry.txt"), "finallyTry!");
+                                //ISender fileSender1 = new FileSender();
+                                //fileSender1.SendFileLink(Path.Combine(destFullDirectory, "input.txt1"), "Отправляется!");
+
+                                ISender emailSender = new EmailSender();
+                                emailSender.SendFileLink(email, messageFor);
+
+                                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "email.txt"), messageFor);
+                                //fileSender1.SendFileLink(Path.Combine(destFullDirectory, "input.txt2"), "Отправлено!");
+                            }
+                            catch (Exception e)
+                            {
+                                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "input3.txt"), e.Message);
+
+                                //ISender fileSender = new FileSender();
+                                //fileSender.SendFileLink(Path.Combine(destFullDirectory, "input3.txt"), e.Message);
+                            }
+                            
                         }
                         
                     });

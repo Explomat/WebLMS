@@ -8,5 +8,7 @@ namespace WebLMS.Models
         public string Md5Hash { get; set; }
         public string FilePath { get; set; }
         public string EmailWhoConverted { get; set; }
+        public DateTime Datetime { get; set; }
+        public bool? IsDownloaded { get; set; }
     }
 }
