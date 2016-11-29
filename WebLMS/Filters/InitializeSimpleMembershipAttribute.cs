@@ -25,11 +25,11 @@ namespace WebLMS.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer<WebLMSContext>(null);
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new WebLMSContext())
                     {
                         if (!context.Database.Exists())
                         {

@@ -237,6 +237,11 @@
     {
         margin-top: 0px;
     }
+
+    .video-converter .video-converter__email-box {
+        display: inline-block !important;
+        margin: 0 !important;
+    }
     
     .footer .footer__contacts
     {

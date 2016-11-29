@@ -66,8 +66,14 @@
     display: none;
 }
 
+.video-converter .video-converter__email-box{
+    display: block;
+    margin: 8px;
+}
+
 .video-converter .video-converter__email {
     padding: 5px;
     margin-right: 16px;
     width: 240px;
 }
+

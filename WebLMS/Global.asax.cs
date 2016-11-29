@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Http;
+//using System.Web;
+//using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using WebLMS.Utils;
 using System.IO;
 using System.Reflection;
+using Hangfire;
 
 namespace WebLMS
 {
@@ -68,12 +69,17 @@ namespace WebLMS
 
         protected void Application_Start()
         {
+            //Hangfire.GlobalConfiguration.Configuration.
+            GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
+
             //this.LoadLibraries();
             AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
+            WebApiConfig.Register(System.Web.Http.GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
             DynamicDataSample.DynamicData.Registration.Register(RouteTable.Routes);
+
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();

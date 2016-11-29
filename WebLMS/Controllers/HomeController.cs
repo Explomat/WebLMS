@@ -14,6 +14,7 @@ using System.Diagnostics;
 using WebLMS.Models;
 using WebLMS.Utils;
 using WebLMS.Utils.Sender;
+using Hangfire;
 
 namespace WebLMS.Controllers
 {
@@ -141,70 +142,16 @@ namespace WebLMS.Controllers
                         Zip.Unzip(fileUpload.InputStream, destFullDirectory);
                     }
 
-                    VideoConverter converter = new VideoConverter(destFullDirectory, videoDirectory);
-                    string error = converter.CheckArchiveCorrect();
-                    if (error != null)
-                    {
-                        Directory.Delete(destFullDirectory);
-                        return Json(new { error = error });
-                    }
-                    string rootHost = Request.Url.Scheme + "://" + Request.Url.Authority;
                     
-                    WebLMSThread.StartBackgroundThread(() =>
-                    {
-                        Exception ex = null;
-                        Models.File file = null;
-                        try
-                        {
-                            string outFilePath = converter.Start();
-                            file = new Models.File();
-                            file.Md5Hash = hash;
-                            file.FilePath = "/TempVideoFiles/" + email + "/" + hash + "/video/" + Path.GetFileName(outFilePath); // Path.Combine(videoDirectory, Path.GetFileName(outFilePath));
-                            file.EmailWhoConverted = email;
-                            file.Datetime = DateTime.Now;
-                            _db.Files.Add(file);
-                            _db.SaveChanges();
-                            //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "saved.txt"), "Saved!");
-                        }
-                        catch (Exception e)
-                        {
-                            //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "catch.txt"), "Catch!");
-                            ex = e;
-                        }
-                        finally
-                        {
-                            //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finally.txt"), "Finally!");
+                    //string error = converter.CheckArchiveCorrect();
+                    //if (error != null)
+                    //{
+                    //    Directory.Delete(destFullDirectory);
+                    //    return Json(new { error = error });
+                    //}
+                    string rootHost = Request.Url.Scheme + "://" + Request.Url.Authority;
+                    BackgroundJob.Enqueue(() => createFile(destFullDirectory, videoDirectory, hash, email, rootHost));
 
-                            //string messageFor = "Ссылка на скачивание видеофайла: " + Request.Url.Authority + "/Home/GetVideoFile/?hash=" + hash + "&id=" + file.Id + " \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru";
-                            //string messageFor = "Ссылка на скачивание видеофайла: /Home/GetVideoFile/?hash=" + hash + "&id=" + file.Id + " После разового скачивания файл удалится с сервера.С уважением, компания WebLMS";
-                            string messageFor = ex == null && file != null ?
-                            String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2} \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, hash, file.Id) : 
-                            String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", ex.Message);
-
-                            //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finally1.txt"), "Finally1!");
-                            try
-                            {
-                                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finallyTry.txt"), "finallyTry!");
-                                //ISender fileSender1 = new FileSender();
-                                //fileSender1.SendFileLink(Path.Combine(destFullDirectory, "input.txt1"), "Отправляется!");
-
-                                ISender emailSender = new EmailSender();
-                                emailSender.SendFileLink(email, messageFor);
-
-                                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "email.txt"), messageFor);
-                                //fileSender1.SendFileLink(Path.Combine(destFullDirectory, "input.txt2"), "Отправлено!");
-                            }
-                            catch (Exception e)
-                            {
-                                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "input3.txt"), e.Message);
-
-                                //ISender fileSender = new FileSender();
-                                //fileSender.SendFileLink(Path.Combine(destFullDirectory, "input3.txt"), e.Message);
-                            }
-                            
-                        }
-                        
-                    });
                     return Json(
                         new
                         {
@@ -217,6 +164,71 @@ namespace WebLMS.Controllers
                 {
                     return Json(new { status = "error", error = "Произошла ошибка при извлечении архива, повторите попытку позже!" });
                 }
+            }
+        }
+
+        public void Test()
+        {
+            Debug.WriteLine("TEST");
+        }
+
+        public void createFile(string destFullDirectory, string videoDirectory, string hash, string email, string rootHost)
+        {
+            VideoConverter converter = new VideoConverter(destFullDirectory, videoDirectory);
+            Debug.WriteLine("createFile");
+            Exception ex = null;
+            Models.File file = null;
+            try
+            {
+                string outFilePath = converter.Start();
+                file = new Models.File();
+                file.Md5Hash = hash;
+                file.FilePath = "/TempVideoFiles/" + email + "/" + hash + "/video/" + Path.GetFileName(outFilePath); // Path.Combine(videoDirectory, Path.GetFileName(outFilePath));
+                file.EmailWhoConverted = email;
+                file.Datetime = DateTime.Now;
+                _db.Files.Add(file);
+                _db.SaveChanges();
+                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "saved.txt"), "Saved!");
+            }
+            catch (Exception e)
+            {
+                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "catch.txt"), "Catch!");
+                ex = e;
+            }
+            finally
+            {
+                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finally.txt"), "Finally!");
+
+                //string messageFor = "Ссылка на скачивание видеофайла: " + Request.Url.Authority + "/Home/GetVideoFile/?hash=" + hash + "&id=" + file.Id + " \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru";
+                //string messageFor = "Ссылка на скачивание видеофайла: /Home/GetVideoFile/?hash=" + hash + "&id=" + file.Id + " После разового скачивания файл удалится с сервера.С уважением, компания WebLMS";
+                string messageFor = ex == null && file != null ?
+                String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2} \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, hash, file.Id) :
+                String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", ex.Message);
+
+                //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finally1.txt"), "Finally1!");
+                try
+                {
+                    //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "finallyTry.txt"), "finallyTry!");
+                    //ISender fileSender1 = new FileSender();
+                    //fileSender1.SendFileLink(Path.Combine(destFullDirectory, "input.txt1"), "Отправляется!");
+
+                    //ISender emailSender = new FileSender();
+                    //emailSender.SendFileLink(Path.Combine(destFullDirectory, "output.txt"), messageFor);
+
+                    ISender emailSender = new EmailSender();
+                    emailSender.SendFileLink(email, messageFor);
+
+                    //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "email.txt"), messageFor);
+                    //fileSender1.SendFileLink(Path.Combine(destFullDirectory, "input.txt2"), "Отправлено!");
+                }
+                catch (Exception e)
+                {
+                    //System.IO.File.WriteAllText(Path.Combine(destFullDirectory, "input3.txt"), e.Message);
+
+                    //ISender fileSender = new FileSender();
+                    //fileSender.SendFileLink(Path.Combine(destFullDirectory, "input3.txt"), e.Message);
+                }
+
             }
         }
     }

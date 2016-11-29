@@ -1,9 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebLMS.Models
 {
+    [Table("WebLMSForm")]
     public class WebLMSForm
     {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public Int64 Id { get; set; }
         public string Fullname { get; set; }
         public string Email { get; set; }
