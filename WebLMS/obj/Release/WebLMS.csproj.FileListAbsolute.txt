@@ -42,7 +42,6 @@ D:\repos\WebLMS\WebLMS\bin\DotNetOpenAuth.OpenId.xml
 D:\repos\WebLMS\WebLMS\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
 D:\repos\WebLMS\WebLMS\obj\Release\WebLMS.dll
 D:\repos\WebLMS\WebLMS\obj\Release\WebLMS.pdb
-D:\repos\WebLMS\WebLMS\obj\Release\WebLMS.csprojResolveAssemblyReference.cache
 D:\repos\WebLMS\WebLMS\bin\AForge.dll
 D:\repos\WebLMS\WebLMS\bin\NReco.VideoConverter.xml
 D:\repos\WebLMS\WebLMS\bin\AForge.Video.xml

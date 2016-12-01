@@ -44,7 +44,6 @@ D:\repos\WebLMS\WebLMS\bin\DotNetOpenAuth.OAuth.Consumer.xml
 D:\repos\WebLMS\WebLMS\bin\DotNetOpenAuth.OAuth.xml
 D:\repos\WebLMS\WebLMS\bin\DotNetOpenAuth.OpenId.xml
 D:\repos\WebLMS\WebLMS\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
-D:\repos\WebLMS\WebLMS\obj\Debug\WebLMS.csprojResolveAssemblyReference.cache
 D:\repos\WebLMS\WebLMS\obj\Debug\WebLMS.dll
 D:\repos\WebLMS\WebLMS\obj\Debug\WebLMS.pdb
 D:\repos\WebLMS\WebLMS\bin\EntityFramework.SqlServer.dll

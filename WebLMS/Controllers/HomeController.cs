@@ -167,20 +167,16 @@ namespace WebLMS.Controllers
             }
         }
 
-        public void Test()
-        {
-            Debug.WriteLine("TEST");
-        }
-
         public void createFile(string destFullDirectory, string videoDirectory, string hash, string email, string rootHost)
         {
+            GC.Collect();
             VideoConverter converter = new VideoConverter(destFullDirectory, videoDirectory);
-            Debug.WriteLine("createFile");
             Exception ex = null;
             Models.File file = null;
             try
             {
                 string outFilePath = converter.Start();
+                converter.Dispose();
                 file = new Models.File();
                 file.Md5Hash = hash;
                 file.FilePath = "/TempVideoFiles/" + email + "/" + hash + "/video/" + Path.GetFileName(outFilePath); // Path.Combine(videoDirectory, Path.GetFileName(outFilePath));
@@ -228,7 +224,7 @@ namespace WebLMS.Controllers
                     //ISender fileSender = new FileSender();
                     //fileSender.SendFileLink(Path.Combine(destFullDirectory, "input3.txt"), e.Message);
                 }
-
+                GC.Collect();
             }
         }
     }

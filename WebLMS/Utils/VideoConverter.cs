@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace VClass
 {
-    public class VideoConverter
+    public class VideoConverter : IDisposable
     {
         class DoubleFrames
         {
@@ -56,7 +56,6 @@ namespace VClass
         {
             this.converter = new FFMpegConverter();
             this.LoadXml();
-            //this.AddAudio();
             this.CreateMovie();
             return this.AddAudio();
         }
@@ -203,16 +202,9 @@ namespace VClass
                 TimeSpan diff = TimeSpan.FromMilliseconds(previousFrame.Time) - TimeSpan.FromMilliseconds(curFrame.Time);
                 sw.WriteLine("duration {0}", diff.TotalSeconds.ToString().Replace(',', '.'));
             }
+            reduced.Dispose();
             sw.Close();
             fs.Close();
-            this.converter.LogReceived += (o, args) =>
-            {
-                Debug.WriteLine(args.Data);
-            };
-            this.converter.ConvertProgress += (o, args) =>
-            {
-                Debug.WriteLine(args.Processed);
-            };
             this.converter.Invoke(String.Format("-safe 0 -f concat -i \"{0}\" -c:v libx264 -preset ultrafast -crf 23 -pix_fmt yuv420p \"{1}\"", inputFileDurations, destNewFilePath));
             //this.converter.Invoke(String.Format("-safe 0 -f concat -i {0} -c:v libx264 -preset ultrafast -crf 220 -pix_fmt yuv420p {1}", inputFileDurations, destNewFilePath));
             
@@ -363,6 +355,11 @@ namespace VClass
                 outFilePath = filePathWithoutAudio;
             }
             return outFilePath;*/
+        }
+
+        public void Dispose()
+        {
+            this.converter = null;
         }
     }
 }
