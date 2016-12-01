@@ -9,7 +9,7 @@ using System.Web.Routing;
 using WebLMS.Utils;
 using System.IO;
 using System.Reflection;
-using Hangfire;
+//using Hangfire;
 
 namespace WebLMS
 {
@@ -70,7 +70,7 @@ namespace WebLMS
         protected void Application_Start()
         {
             //Hangfire.GlobalConfiguration.Configuration.
-            GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
+            //GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
 
             //this.LoadLibraries();
             AreaRegistration.RegisterAllAreas();

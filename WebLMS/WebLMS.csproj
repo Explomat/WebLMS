@@ -62,14 +62,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Hangfire.Core, Version=1.6.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Hangfire.Core.1.6.7\lib\net45\Hangfire.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Hangfire.SqlServer, Version=1.6.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Hangfire.SqlServer.1.6.7\lib\net45\Hangfire.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.DynamicData.EFProvider, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.DynamicData.EFProvider.6.0.0\lib\net40\Microsoft.AspNet.DynamicData.EFProvider.dll</HintPath>
       <Private>True</Private>
@@ -79,14 +71,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -95,15 +79,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\matveev.s\Downloads\video_converter_1.1_free\NReco.VideoConverter.dll</HintPath>
     </Reference>
-    <Reference Include="Owin">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -464,6 +447,11 @@
     <Compile Include="Models\WebLMSContext.cs" />
     <Compile Include="Models\WebLMSForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\Transfer\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Email.cs" />
     <Compile Include="Utils\Hash.cs" />
     <Compile Include="Utils\Sender\EmailSender.cs" />
@@ -552,6 +540,12 @@
     <Content Include="Scripts\formModal.js" />
     <Content Include="Scripts\mobileMenu.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <None Include="Service References\Transfer\configuration91.svcinfo" />
+    <None Include="Service References\Transfer\configuration.svcinfo" />
+    <None Include="Service References\Transfer\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -575,6 +569,17 @@
     <Content Include="DynamicData\Site.master" />
     <Content Include="DynamicData\web.config" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <None Include="Service References\Transfer\Transfer.wsdl" />
+    <None Include="Service References\Transfer\Transfer.xsd" />
+    <None Include="Service References\Transfer\Transfer1.wsdl" />
+    <None Include="Service References\Transfer\Transfer1.xsd" />
+    <None Include="Service References\Transfer\Transfer2.xsd" />
+    <Content Include="Service References\Transfer\WebLMS.Transfer.RemoteFileInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\Transfer\WebLMS.Transfer.ResponseFileInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Fonts\glyphicons-halflings-regular.eot" />
@@ -589,6 +594,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="TempVideoFiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Transfer\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

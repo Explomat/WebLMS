@@ -14,7 +14,7 @@ using System.Diagnostics;
 using WebLMS.Models;
 using WebLMS.Utils;
 using WebLMS.Utils.Sender;
-using Hangfire;
+//using Hangfire;
 
 namespace WebLMS.Controllers
 {
@@ -150,7 +150,13 @@ namespace WebLMS.Controllers
                     //    return Json(new { error = error });
                     //}
                     string rootHost = Request.Url.Scheme + "://" + Request.Url.Authority;
-                    BackgroundJob.Enqueue(() => createFile(destFullDirectory, videoDirectory, hash, email, rootHost));
+                    WebLMSThread.StartBackgroundThread(() => {
+                        Transfer.TransferClient client = new Transfer.TransferClient("BasicHttpBinding_ITransfer");
+                        string result = client.ConvertFile(email, fileUpload.InputStream);
+                        Trace.WriteLine(result);
+                        Debug.WriteLine(result);
+                    });
+                    //BackgroundJob.Enqueue(() => createFile(destFullDirectory, videoDirectory, hash, email, rootHost));
 
                     return Json(
                         new
@@ -169,7 +175,6 @@ namespace WebLMS.Controllers
 
         public void createFile(string destFullDirectory, string videoDirectory, string hash, string email, string rootHost)
         {
-            GC.Collect();
             VideoConverter converter = new VideoConverter(destFullDirectory, videoDirectory);
             Exception ex = null;
             Models.File file = null;
@@ -224,7 +229,6 @@ namespace WebLMS.Controllers
                     //ISender fileSender = new FileSender();
                     //fileSender.SendFileLink(Path.Combine(destFullDirectory, "input3.txt"), e.Message);
                 }
-                GC.Collect();
             }
         }
     }

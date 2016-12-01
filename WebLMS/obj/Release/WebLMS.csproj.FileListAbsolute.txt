@@ -69,3 +69,4 @@ D:\repos\WebLMS\WebLMS\bin\Microsoft.Owin.Host.SystemWeb.xml
 D:\repos\WebLMS\WebLMS\bin\es\Hangfire.Core.resources.dll
 D:\repos\WebLMS\WebLMS\bin\zh\Hangfire.Core.resources.dll
 D:\repos\WebLMS\WebLMS\bin\Owin.dll
+D:\repos\WebLMS\WebLMS\obj\Release\WebLMS.csprojResolveAssemblyReference.cache
