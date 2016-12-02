@@ -122,55 +122,83 @@ namespace WebLMS.Controllers
             {
                 return Json(new { error = "Неправильный email адрес!" });
             }
-            using (MD5 md5 = MD5.Create())
+
+            byte[] streamBytes = StreamUtils.GetBytesFromStream(fileUpload.InputStream);
+            WebLMSThread.StartBackgroundThread(() =>
             {
+                string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", Path.GetFileNameWithoutExtension(fileUpload.FileName));
+                Directory.CreateDirectory(destDirectory);
                 try
                 {
-                    string hash = Hash.GetMD5Hash(md5, fileUpload.InputStream);
-                    string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles");
-                    string destFullDirectory = Path.Combine(destDirectory, email, hash);
-                    string videoDirectory = Path.Combine(destFullDirectory, "video");
-                    if (!Directory.Exists(destDirectory))
-                    {
-                        Directory.CreateDirectory(destDirectory);
-                    }
-                    
-                    if (!Directory.Exists(destFullDirectory))
-                    {
-                        Directory.CreateDirectory(destFullDirectory);
-                        Directory.CreateDirectory(videoDirectory);
-                        Zip.Unzip(fileUpload.InputStream, destFullDirectory);
-                    }
-
-                    
-                    //string error = converter.CheckArchiveCorrect();
-                    //if (error != null)
-                    //{
-                    //    Directory.Delete(destFullDirectory);
-                    //    return Json(new { error = error });
-                    //}
-                    string rootHost = Request.Url.Scheme + "://" + Request.Url.Authority;
-                    WebLMSThread.StartBackgroundThread(() => {
-                        Transfer.TransferClient client = new Transfer.TransferClient("BasicHttpBinding_ITransfer");
-                        string result = client.ConvertFile(email, fileUpload.InputStream);
-                        Trace.WriteLine(result);
-                        Debug.WriteLine(result);
-                    });
-                    //BackgroundJob.Enqueue(() => createFile(destFullDirectory, videoDirectory, hash, email, rootHost));
-
-                    return Json(
-                        new
-                        {
-                            status = "process",
-                            message = "Файл проходит обработку. Ссылку на скачивание Вы получите по почте!"
-                        }
-                    );
+                    Transfer.TransferClient client = new Transfer.TransferClient("BasicHttpBinding_ITransfer");
+                    string result = client.ConvertFile(streamBytes, email);
+                    System.IO.File.WriteAllText(Path.Combine(destDirectory, DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + "__" + DateTime.Now.TimeOfDay + "_done.txt"), "Успех!");
+                    //Trace.WriteLine(result);
+                    //Debug.WriteLine(result);
                 }
                 catch (Exception e)
                 {
-                    return Json(new { status = "error", error = "Произошла ошибка при извлечении архива, повторите попытку позже!" });
+                    System.IO.File.WriteAllText(Path.Combine(destDirectory, DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + "__" + DateTime.Now.TimeOfDay + "__catch.txt"), e.Message);
+                    //Debug.WriteLine(e.Message);
                 }
-            }
+                
+            });
+            return Json(
+                new
+                {
+                    status = "process",
+                    message = "Файл проходит обработку. Ссылку на скачивание Вы получите по почте!"
+                }
+            );
+            //using (MD5 md5 = MD5.Create())
+            //{
+            //    try
+            //    {
+            //        string hash = Hash.GetMD5Hash(md5, fileUpload.InputStream);
+            //        string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles");
+            //        string destFullDirectory = Path.Combine(destDirectory, email, hash);
+            //        string videoDirectory = Path.Combine(destFullDirectory, "video");
+            //        if (!Directory.Exists(destDirectory))
+            //        {
+            //            Directory.CreateDirectory(destDirectory);
+            //        }
+                    
+            //        if (!Directory.Exists(destFullDirectory))
+            //        {
+            //            Directory.CreateDirectory(destFullDirectory);
+            //            Directory.CreateDirectory(videoDirectory);
+            //            Zip.Unzip(fileUpload.InputStream, destFullDirectory);
+            //        }
+
+                    
+            //        //string error = converter.CheckArchiveCorrect();
+            //        //if (error != null)
+            //        //{
+            //        //    Directory.Delete(destFullDirectory);
+            //        //    return Json(new { error = error });
+            //        //}
+            //        string rootHost = Request.Url.Scheme + "://" + Request.Url.Authority;
+            //        WebLMSThread.StartBackgroundThread(() => {
+            //            Transfer.TransferClient client = new Transfer.TransferClient("BasicHttpBinding_ITransfer");
+            //            string result = client.ConvertFile(email, fileUpload.InputStream);
+            //            Trace.WriteLine(result);
+            //            Debug.WriteLine(result);
+            //        });
+            //        //BackgroundJob.Enqueue(() => createFile(destFullDirectory, videoDirectory, hash, email, rootHost));
+
+            //        return Json(
+            //            new
+            //            {
+            //                status = "process",
+            //                message = "Файл проходит обработку. Ссылку на скачивание Вы получите по почте!"
+            //            }
+            //        );
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        return Json(new { status = "error", error = "Произошла ошибка при извлечении архива, повторите попытку позже!" });
+            //    }
+            //}
         }
 
         public void createFile(string destFullDirectory, string videoDirectory, string hash, string email, string rootHost)

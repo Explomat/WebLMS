@@ -12,37 +12,31 @@ namespace WebLMS.Transfer {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://service.weblms.ru", ConfigurationName="Transfer.ITransfer")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Transfer.ITransfer")]
     public interface ITransfer {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://service.weblms.ru/ITransfer/TestConnection", ReplyAction="http://service.weblms.ru/ITransfer/TestConnectionResponse")]
-        string TestConnection();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://service.weblms.ru/ITransfer/TestConnection", ReplyAction="http://service.weblms.ru/ITransfer/TestConnectionResponse")]
-        System.Threading.Tasks.Task<string> TestConnectionAsync();
-        
         // CODEGEN: Generating message contract since the wrapper name (DownloadRequest) of message DownloadRequest does not match the default value (DownloadFile)
-        [System.ServiceModel.OperationContractAttribute(Action="http://service.weblms.ru/ITransfer/DownloadFile", ReplyAction="http://service.weblms.ru/ITransfer/DownloadFileResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITransfer/DownloadFile", ReplyAction="http://tempuri.org/ITransfer/DownloadFileResponse")]
         WebLMS.Transfer.RemoteFileInfo DownloadFile(WebLMS.Transfer.DownloadRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://service.weblms.ru/ITransfer/DownloadFile", ReplyAction="http://service.weblms.ru/ITransfer/DownloadFileResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITransfer/DownloadFile", ReplyAction="http://tempuri.org/ITransfer/DownloadFileResponse")]
         System.Threading.Tasks.Task<WebLMS.Transfer.RemoteFileInfo> DownloadFileAsync(WebLMS.Transfer.DownloadRequest request);
         
         // CODEGEN: Generating message contract since the wrapper name (UploadFileInfo) of message UploadFileInfo does not match the default value (ConvertFile)
-        [System.ServiceModel.OperationContractAttribute(Action="http://service.weblms.ru/ITransfer/ConvertFile", ReplyAction="http://service.weblms.ru/ITransfer/ConvertFileResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITransfer/ConvertFile", ReplyAction="http://tempuri.org/ITransfer/ConvertFileResponse")]
         WebLMS.Transfer.ResponseFileInfo ConvertFile(WebLMS.Transfer.UploadFileInfo request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://service.weblms.ru/ITransfer/ConvertFile", ReplyAction="http://service.weblms.ru/ITransfer/ConvertFileResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITransfer/ConvertFile", ReplyAction="http://tempuri.org/ITransfer/ConvertFileResponse")]
         System.Threading.Tasks.Task<WebLMS.Transfer.ResponseFileInfo> ConvertFileAsync(WebLMS.Transfer.UploadFileInfo request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="DownloadRequest", WrapperNamespace="http://service.weblms.ru", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DownloadRequest", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
     public partial class DownloadRequest {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.weblms.ru", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
         public string FileName;
         
         public DownloadRequest() {
@@ -56,26 +50,22 @@ namespace WebLMS.Transfer {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="RemoteFileInfo", WrapperNamespace="http://service.weblms.ru", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RemoteFileInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
     public partial class RemoteFileInfo {
         
-        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://service.weblms.ru")]
-        public string Email;
-        
-        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://service.weblms.ru")]
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
         public string FileName;
         
-        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://service.weblms.ru")]
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
         public long Length;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.weblms.ru", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
         public System.IO.Stream FileByteStream;
         
         public RemoteFileInfo() {
         }
         
-        public RemoteFileInfo(string Email, string FileName, long Length, System.IO.Stream FileByteStream) {
-            this.Email = Email;
+        public RemoteFileInfo(string FileName, long Length, System.IO.Stream FileByteStream) {
             this.FileName = FileName;
             this.Length = Length;
             this.FileByteStream = FileByteStream;
@@ -85,31 +75,31 @@ namespace WebLMS.Transfer {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="UploadFileInfo", WrapperNamespace="http://service.weblms.ru", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UploadFileInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
     public partial class UploadFileInfo {
         
-        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://service.weblms.ru")]
-        public string Email;
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public byte[] ByteArray;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.weblms.ru", Order=0)]
-        public System.IO.Stream FileByteStream;
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string Email;
         
         public UploadFileInfo() {
         }
         
-        public UploadFileInfo(string Email, System.IO.Stream FileByteStream) {
+        public UploadFileInfo(byte[] ByteArray, string Email) {
+            this.ByteArray = ByteArray;
             this.Email = Email;
-            this.FileByteStream = FileByteStream;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="ResponseFileInfo", WrapperNamespace="http://service.weblms.ru", IsWrapped=true)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="ResponseFileInfo", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
     public partial class ResponseFileInfo {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.weblms.ru", Order=0)]
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
         public string Path;
         
         public ResponseFileInfo() {
@@ -147,27 +137,18 @@ namespace WebLMS.Transfer {
                 base(binding, remoteAddress) {
         }
         
-        public string TestConnection() {
-            return base.Channel.TestConnection();
-        }
-        
-        public System.Threading.Tasks.Task<string> TestConnectionAsync() {
-            return base.Channel.TestConnectionAsync();
-        }
-        
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         WebLMS.Transfer.RemoteFileInfo WebLMS.Transfer.ITransfer.DownloadFile(WebLMS.Transfer.DownloadRequest request) {
             return base.Channel.DownloadFile(request);
         }
         
-        public string DownloadFile(ref string FileName, out long Length, out System.IO.Stream FileByteStream) {
+        public long DownloadFile(ref string FileName, out System.IO.Stream FileByteStream) {
             WebLMS.Transfer.DownloadRequest inValue = new WebLMS.Transfer.DownloadRequest();
             inValue.FileName = FileName;
             WebLMS.Transfer.RemoteFileInfo retVal = ((WebLMS.Transfer.ITransfer)(this)).DownloadFile(inValue);
             FileName = retVal.FileName;
-            Length = retVal.Length;
             FileByteStream = retVal.FileByteStream;
-            return retVal.Email;
+            return retVal.Length;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -186,10 +167,10 @@ namespace WebLMS.Transfer {
             return base.Channel.ConvertFile(request);
         }
         
-        public string ConvertFile(string Email, System.IO.Stream FileByteStream) {
+        public string ConvertFile(byte[] ByteArray, string Email) {
             WebLMS.Transfer.UploadFileInfo inValue = new WebLMS.Transfer.UploadFileInfo();
+            inValue.ByteArray = ByteArray;
             inValue.Email = Email;
-            inValue.FileByteStream = FileByteStream;
             WebLMS.Transfer.ResponseFileInfo retVal = ((WebLMS.Transfer.ITransfer)(this)).ConvertFile(inValue);
             return retVal.Path;
         }
@@ -199,10 +180,10 @@ namespace WebLMS.Transfer {
             return base.Channel.ConvertFileAsync(request);
         }
         
-        public System.Threading.Tasks.Task<WebLMS.Transfer.ResponseFileInfo> ConvertFileAsync(string Email, System.IO.Stream FileByteStream) {
+        public System.Threading.Tasks.Task<WebLMS.Transfer.ResponseFileInfo> ConvertFileAsync(byte[] ByteArray, string Email) {
             WebLMS.Transfer.UploadFileInfo inValue = new WebLMS.Transfer.UploadFileInfo();
+            inValue.ByteArray = ByteArray;
             inValue.Email = Email;
-            inValue.FileByteStream = FileByteStream;
             return ((WebLMS.Transfer.ITransfer)(this)).ConvertFileAsync(inValue);
         }
     }

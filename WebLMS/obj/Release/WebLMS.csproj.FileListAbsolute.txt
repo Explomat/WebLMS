@@ -58,15 +58,3 @@ D:\repos\WebLMS\WebLMS\bin\Microsoft.AspNet.DynamicData.EFProvider.dll
 D:\repos\WebLMS\WebLMS\bin\Microsoft.AspNet.EntityDataSource.dll
 D:\repos\WebLMS\WebLMS\bin\NReco.VideoConverter.dll
 D:\repos\WebLMS\WebLMS\bin\WebLMS.dll.config
-D:\repos\WebLMS\WebLMS\bin\Hangfire.Core.dll
-D:\repos\WebLMS\WebLMS\bin\Hangfire.SqlServer.dll
-D:\repos\WebLMS\WebLMS\bin\Microsoft.Owin.dll
-D:\repos\WebLMS\WebLMS\bin\Microsoft.Owin.Host.SystemWeb.dll
-D:\repos\WebLMS\WebLMS\bin\Hangfire.Core.xml
-D:\repos\WebLMS\WebLMS\bin\Hangfire.SqlServer.xml
-D:\repos\WebLMS\WebLMS\bin\Microsoft.Owin.xml
-D:\repos\WebLMS\WebLMS\bin\Microsoft.Owin.Host.SystemWeb.xml
-D:\repos\WebLMS\WebLMS\bin\es\Hangfire.Core.resources.dll
-D:\repos\WebLMS\WebLMS\bin\zh\Hangfire.Core.resources.dll
-D:\repos\WebLMS\WebLMS\bin\Owin.dll
-D:\repos\WebLMS\WebLMS\obj\Release\WebLMS.csprojResolveAssemblyReference.cache

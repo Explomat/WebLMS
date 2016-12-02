@@ -19,14 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:50291/Transfer.svc?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://service.weblms.ru/Transfer.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Transfer.xsd" MetadataType="Schema" ID="439c168f-6c08-46c7-b236-acd29c1b793c" SourceId="1" SourceUrl="http://localhost:50291/Transfer.svc?xsd=xsd0" />
-    <MetadataFile FileName="Transfer1.xsd" MetadataType="Schema" ID="9f0e33fc-6480-4e72-b812-6df5b11e60e2" SourceId="1" SourceUrl="http://localhost:50291/Transfer.svc?xsd=xsd1" />
-    <MetadataFile FileName="Transfer.wsdl" MetadataType="Wsdl" ID="87b10113-56ef-4bfc-8226-614fa1fb4d02" SourceId="1" SourceUrl="http://localhost:50291/Transfer.svc?wsdl" />
-    <MetadataFile FileName="Transfer1.wsdl" MetadataType="Wsdl" ID="859f46bd-d48b-4d10-bca8-c0c12999e073" SourceId="1" SourceUrl="http://localhost:50291/Transfer.svc?wsdl=wsdl0" />
-    <MetadataFile FileName="Transfer2.xsd" MetadataType="Schema" ID="7a9a8280-9882-4f2b-a090-ab1fb44c1a0b" SourceId="1" SourceUrl="http://localhost:50291/Transfer.svc?xsd=xsd2" />
+    <MetadataFile FileName="Transfer1.wsdl" MetadataType="Wsdl" ID="aba738c0-2dee-46ec-b6c5-31778fcfa9d8" SourceId="1" SourceUrl="http://service.weblms.ru/Transfer.svc?wsdl" />
+    <MetadataFile FileName="Transfer3.xsd" MetadataType="Schema" ID="621e7325-fcd9-4869-8ae7-7bedb9d8461e" SourceId="1" SourceUrl="http://service.weblms.ru/Transfer.svc?xsd=xsd2" />
+    <MetadataFile FileName="Transfer31.xsd" MetadataType="Schema" ID="0ec181c5-f78a-4300-93d9-b37b5d5cc0c9" SourceId="1" SourceUrl="http://service.weblms.ru/Transfer.svc?xsd=xsd1" />
+    <MetadataFile FileName="Transfer32.xsd" MetadataType="Schema" ID="4123e745-ec70-4868-a0b9-731047f43d18" SourceId="1" SourceUrl="http://service.weblms.ru/Transfer.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
