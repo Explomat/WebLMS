@@ -14,6 +14,8 @@ using System.Diagnostics;
 using WebLMS.Models;
 using WebLMS.Utils;
 using WebLMS.Utils.Sender;
+using System.Threading.Tasks;
+using WebLMS.ConvertService;
 //using Hangfire;
 
 namespace WebLMS.Controllers
@@ -78,38 +80,130 @@ namespace WebLMS.Controllers
                 Response.Write("Указаны неверные параметры!");
                 return;
             }
-            file.IsDownloaded = true;
-            _db.SaveChanges();
 
-            string filePath = Server.MapPath(file.FilePath);
-            string ext = Path.GetExtension(filePath);
-            string fileName = Path.GetFileNameWithoutExtension(filePath);
-            if (!System.IO.File.Exists(filePath))
-            {
-                Response.Write("Файл не найден, т.к. уже удален с сервера!");
-                return;
-            }
             try
             {
-                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                ConverterClient client = new ConverterClient("BasicHttpBinding_IConverter");
+                RemoteFileInfo fileInfo = client.DownloadFile(new DownloadRequest() { Path = file.FilePath });
+                client.Close();
+
+                Response.BufferOutput = false;   // to prevent buffering 
+                byte[] buffer = new byte[6500];
+                int bytesRead = 0;
+
+                System.Web.HttpContext.Current.Response.Clear();
+                System.Web.HttpContext.Current.Response.ClearHeaders();
+                Response.BufferOutput = false;   // to prevent buffering
+                Response.ContentType = "video/mp4";
+                Response.AddHeader("Content-Length", fileInfo.FileByteStream.Length.ToString());
+                Response.AddHeader("content-disposition", "attachment;filename=\"" + Path.GetFileName(file.FilePath) + Path.GetExtension(file.FilePath) + "\"");
+
+                bytesRead = fileInfo.FileByteStream.Read(buffer, 0, buffer.Length);
+
+                while (bytesRead > 0)
                 {
-                    Response.BufferOutput = false;   // to prevent buffering
-                    Response.ContentType = "video/avi";
-                    Response.AddHeader("Content-Length", fs.Length.ToString());
-                    Response.AddHeader("content-disposition", "attachment;filename=\"" + fileName + ext + "\"");
-                    
-                    byte[] buffer = new byte[4096];
-                    int bytesRead = 0;
-                    while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
+                    // Verify that the client is connected.
+                    if (Response.IsClientConnected)
                     {
                         Response.OutputStream.Write(buffer, 0, bytesRead);
+                        // Flush the data to the HTML output.
+                        Response.Flush();
+
+                        buffer = new byte[6500];
+                        bytesRead = fileInfo.FileByteStream.Read(buffer, 0, buffer.Length);
+
+                    }
+                    else
+                    {
+                        bytesRead = -1;
                     }
                 }
-                System.IO.File.Delete(filePath);
             }
-
-            catch (Exception ex) { Debug.WriteLine(ex); } 
+            catch (Exception ex)
+            {
+                // Trap the error, if any.
+                System.Web.HttpContext.Current.Response.Write("Error : " + ex.Message);
+            }
+            finally
+            {
+                Response.Flush();
+                Response.Close();
+                Response.End();
+                System.Web.HttpContext.Current.Response.Close();
+            }
         }
+
+        //[HttpGet]
+        //public void GetVideoFile(string hash, Int64 id)
+        //{
+        //    if (hash == null)
+        //    {
+        //        Response.Write("Указаны неверные параметры!");
+        //        return;
+        //    }
+
+        //    Models.File file = _db.Files.Where(f => f.Id == id && f.Md5Hash == hash).FirstOrDefault<Models.File>();
+        //    if (file == null)
+        //    {
+        //        Response.Write("Указаны неверные параметры!");
+        //        return;
+        //    }
+
+        //    TransferClient client = new TransferClient("BasicHttpBinding_ITransfer");
+        //    RemoteFileInfo fileInfo = client.DownloadFile(new DownloadRequest() { Path = file.FilePath });
+        //    //client.DownloadFile()
+
+            
+        //    string filePath = Server.MapPath(file.FilePath);
+        //    string ext = Path.GetExtension(filePath);
+        //    string fileName = Path.GetFileNameWithoutExtension(filePath);
+        //    if (!System.IO.File.Exists(filePath))
+        //    {
+        //        Response.Write("Файл не найден, т.к. уже удален с сервера!");
+        //        return;
+        //    }
+        //    try
+        //    {
+        //        using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+        //        {
+        //            System.Web.HttpContext.Current.Response.Clear();
+        //            System.Web.HttpContext.Current.Response.ClearHeaders();
+        //            Response.BufferOutput = false;   // to prevent buffering
+        //            Response.ContentType = "video/mp4";
+        //            Response.AddHeader("Content-Length", fs.Length.ToString());
+        //            Response.AddHeader("content-disposition", "attachment;filename=\"" + fileName + ext + "\"");
+                    
+        //            byte[] buffer = new byte[6500];
+        //            int bytesRead = 0;
+        //            while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
+        //            {
+        //                if (Response.IsClientConnected)
+        //                {
+        //                    Response.OutputStream.Write(buffer, 0, bytesRead);
+        //                }
+        //                else
+        //                {
+        //                    bytesRead = -1;
+        //                }
+        //            }
+        //        }
+        //        file.IsDownloaded = true;
+        //        _db.SaveChanges();
+        //        System.IO.File.Delete(filePath);
+        //    }
+
+        //    catch (Exception ex) {
+        //        System.Web.HttpContext.Current.Response.Write("Error : " + ex.Message);
+        //        Debug.WriteLine(ex); 
+        //    }
+        //    finally
+        //    {
+        //        Response.Flush();
+        //        Response.Close();
+        //        Response.End();
+        //        System.Web.HttpContext.Current.Response.Close();
+        //    }
+        //}
 
         [HttpPost]
         public ActionResult ConvertForm(HttpPostedFileBase fileUpload, string email = "")
@@ -123,33 +217,79 @@ namespace WebLMS.Controllers
                 return Json(new { error = "Неправильный email адрес!" });
             }
 
+            string rootHost = Request.Url.Scheme + "://" + Request.Url.Authority;
             byte[] streamBytes = StreamUtils.GetBytesFromStream(fileUpload.InputStream);
-            WebLMSThread.StartBackgroundThread(() =>
+            Task newTask = new Task(() =>
             {
-                string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", Path.GetFileNameWithoutExtension(fileUpload.FileName));
-                Directory.CreateDirectory(destDirectory);
+                string result = String.Empty;
                 try
                 {
-                    Transfer.TransferClient client = new Transfer.TransferClient("BasicHttpBinding_ITransfer");
-                    string result = client.ConvertFile(streamBytes, email);
-                    System.IO.File.WriteAllText(Path.Combine(destDirectory, DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + "__" + DateTime.Now.TimeOfDay + "_done.txt"), "Успех!");
-                    //Trace.WriteLine(result);
-                    //Debug.WriteLine(result);
+                    ConverterClient client = new ConverterClient("BasicHttpBinding_IConverter");
+                    ResponseFileInfo fileInfo = client.ConvertFile(new UploadFileInfo() { ByteArray = streamBytes, Email = email});
+                    client.Close();
+
+                    Models.File file = new Models.File();
+                    file.Md5Hash = fileInfo.Hash;
+                    file.FilePath = fileInfo.Path;
+                    file.EmailWhoConverted = email;
+                    file.Datetime = DateTime.Now;
+                    _db.Files.Add(file);
+                    _db.SaveChanges();
+
+                    string emailMessage = String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2} \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, fileInfo.Hash, file.Id);
+                    ISender emailSender = new FileSender();
+                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_done.txt"), emailMessage);
+
+                    //ISender emailSender = new EmailSender();
+                    //emailSender.SendFileLink(email, emailMessage);
+                    //emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "__done.txt"), "done!");
                 }
                 catch (Exception e)
                 {
-                    System.IO.File.WriteAllText(Path.Combine(destDirectory, DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + "__" + DateTime.Now.TimeOfDay + "__catch.txt"), e.Message);
-                    //Debug.WriteLine(e.Message);
+                    string emailError = String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", e.Message);
+                    //ISender emailSender = new EmailSender();
+                    //emailSender.SendFileLink(email, emailError);
+
+                    ISender emailSender = new FileSender();
+                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_catch.txt"), e.Message);
                 }
                 
             });
+            WebLMSTasks.AddTask(newTask);
+            //WebLMSThread.StartBackgroundThread(() =>
+            //{
+            //    string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", Path.GetFileNameWithoutExtension(fileUpload.FileName));
+            //    Directory.CreateDirectory(destDirectory);
+            //    try
+            //    {
+            //        Transfer.TransferClient client = new Transfer.TransferClient("BasicHttpBinding_ITransfer");
+            //        string result = client.ConvertFile(streamBytes, email);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        //System.IO.File.WriteAllText(Path.Combine(destDirectory, DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + "__" + DateTime.Now.TimeOfDay + "__catch.txt"), e.Message);
+            //        //Debug.WriteLine(e.Message);
+            //    }
+                
+            //});
+
+            string messageToClient = 
+                WebLMSTasks.IsInPerformQueue(newTask.Id) ?
+                "Файл проходит обработку. Ссылку на скачивание Вы получите по почте!" :
+                WebLMSTasks.IsInLazyQueue(newTask.Id) ?
+                "Файл поставлен в очередь на обработку. Ссылку на скачивание Вы получите по почте!" :
+                "Сервер сейчас перегружен. Попробуйте повторить операцию позже.";
+
+
             return Json(
                 new
                 {
                     status = "process",
-                    message = "Файл проходит обработку. Ссылку на скачивание Вы получите по почте!"
+                    message = messageToClient
                 }
             );
+
+            
             //using (MD5 md5 = MD5.Create())
             //{
             //    try

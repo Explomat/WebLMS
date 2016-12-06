@@ -25,7 +25,12 @@ namespace WebLMS.Utils.Sender
             NetworkCredential Credentials = new NetworkCredential("info@weblms.ru", "1q2w3e4r5t6Y$");
             smtp.Credentials = Credentials;
 
-            smtp.Send(mail);      
+            try
+            {
+                smtp.Send(mail);  
+            }
+            catch(Exception ex){}
+                
         }
     }
 }

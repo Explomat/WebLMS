@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="787a28cb-7589-40c5-bf7a-d8e25c30b860" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:49475/Converter.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Converter.xsd" MetadataType="Schema" ID="d826bd54-88d5-4f83-b9eb-dbf8116f9ce0" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd2" />
+    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="2e767b11-501d-4472-8550-16f36505cbff" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd3" />
+    <MetadataFile FileName="Converter2.xsd" MetadataType="Schema" ID="a610d2be-1cf0-4ffb-bd2c-5582fb11db0b" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd0" />
+    <MetadataFile FileName="Converter3.xsd" MetadataType="Schema" ID="4e3da025-e96a-4fd1-b1fe-de41fcd19714" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd1" />
+    <MetadataFile FileName="Converter.wsdl" MetadataType="Wsdl" ID="a5c61b58-29fc-4fb7-9460-2e0704b2437a" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Converter1.wsdl" MetadataType="Wsdl" ID="8dc6278d-a4ee-4ec7-918f-30d9bd7b08ae" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

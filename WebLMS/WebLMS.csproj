@@ -447,7 +447,7 @@
     <Compile Include="Models\WebLMSContext.cs" />
     <Compile Include="Models\WebLMSForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\Transfer\Reference.cs">
+    <Compile Include="Service References\ConvertService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -458,6 +458,7 @@
     <Compile Include="Utils\Sender\FileSender.cs" />
     <Compile Include="Utils\Sender\ISender.cs" />
     <Compile Include="Utils\StreamUtils.cs" />
+    <Compile Include="Utils\WebLMSTasks.cs" />
     <Compile Include="Utils\WebLMSThread.cs" />
     <Compile Include="Utils\VideoConverter.cs" />
     <Compile Include="Utils\Win32NativeMethods.cs" />
@@ -541,9 +542,9 @@
     <Content Include="Scripts\formModal.js" />
     <Content Include="Scripts\mobileMenu.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <None Include="Service References\Transfer\configuration91.svcinfo" />
-    <None Include="Service References\Transfer\configuration.svcinfo" />
-    <None Include="Service References\Transfer\Reference.svcmap">
+    <None Include="Service References\ConvertService\configuration91.svcinfo" />
+    <None Include="Service References\ConvertService\configuration.svcinfo" />
+    <None Include="Service References\ConvertService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -570,16 +571,18 @@
     <Content Include="DynamicData\Site.master" />
     <Content Include="DynamicData\web.config" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
-    <Content Include="Service References\Transfer\WebLMS.Transfer.RemoteFileInfo.datasource">
+    <None Include="Service References\ConvertService\Converter.wsdl" />
+    <None Include="Service References\ConvertService\Converter.xsd" />
+    <None Include="Service References\ConvertService\Converter1.wsdl" />
+    <None Include="Service References\ConvertService\Converter1.xsd" />
+    <None Include="Service References\ConvertService\Converter2.xsd" />
+    <None Include="Service References\ConvertService\Converter3.xsd" />
+    <Content Include="Service References\ConvertService\WebLMS.ConvertService.RemoteFileInfo.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\Transfer\WebLMS.Transfer.ResponseFileInfo.datasource">
+    <Content Include="Service References\ConvertService\WebLMS.ConvertService.ResponseFileInfo.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <None Include="Service References\Transfer\Transfer1.wsdl" />
-    <None Include="Service References\Transfer\Transfer3.xsd" />
-    <None Include="Service References\Transfer\Transfer31.xsd" />
-    <None Include="Service References\Transfer\Transfer32.xsd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fonts\glyphicons-halflings-regular.eot" />
@@ -599,7 +602,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\Transfer\" />
+    <WCFMetadataStorage Include="Service References\ConvertService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
