@@ -1,32 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://service.weblms.ru" elementFormDefault="qualified" targetNamespace="http://service.weblms.ru" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:49475/Converter.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System.IO" />
-  <xs:element name="DownloadFile">
+  <xs:import schemaLocation="http://localhost:49475/Converter.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/Message" />
+  <xs:element name="DownloadRequest">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="request" nillable="true" type="tns:DownloadRequest" />
+        <xs:element minOccurs="0" name="Path" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:complexType name="DownloadRequest">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Path" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="DownloadRequest" nillable="true" type="tns:DownloadRequest" />
-  <xs:element name="DownloadFileResponse">
+  <xs:element name="RemoteFileInfo">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="DownloadFileResult" nillable="true" type="tns:RemoteFileInfo" />
+        <xs:element xmlns:q1="http://schemas.microsoft.com/Message" name="FileByteStream" type="q1:StreamBody" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:complexType name="RemoteFileInfo">
-    <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System.IO" minOccurs="0" name="FileByteStream" nillable="true" type="q1:Stream" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="RemoteFileInfo" nillable="true" type="tns:RemoteFileInfo" />
+  <xs:element name="Length" type="xs:long" />
   <xs:element name="ConvertFile">
     <xs:complexType>
       <xs:sequence>

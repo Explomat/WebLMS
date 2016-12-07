@@ -15,96 +15,6 @@ namespace WebLMS.ConvertService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="DownloadRequest", Namespace="http://service.weblms.ru")]
-    [System.SerializableAttribute()]
-    public partial class DownloadRequest : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string PathField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Path {
-            get {
-                return this.PathField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.PathField, value) != true)) {
-                    this.PathField = value;
-                    this.RaisePropertyChanged("Path");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RemoteFileInfo", Namespace="http://service.weblms.ru")]
-    [System.SerializableAttribute()]
-    public partial class RemoteFileInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.IO.Stream FileByteStreamField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.IO.Stream FileByteStream {
-            get {
-                return this.FileByteStreamField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.FileByteStreamField, value) != true)) {
-                    this.FileByteStreamField = value;
-                    this.RaisePropertyChanged("FileByteStream");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="UploadFileInfo", Namespace="http://service.weblms.ru")]
     [System.SerializableAttribute()]
     public partial class UploadFileInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -229,6 +139,7 @@ namespace WebLMS.ConvertService {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://service.weblms.ru", ConfigurationName="ConvertService.IConverter")]
     public interface IConverter {
         
+        // CODEGEN: Generating message contract since the wrapper name (DownloadRequest) of message DownloadRequest does not match the default value (DownloadFile)
         [System.ServiceModel.OperationContractAttribute(Action="http://service.weblms.ru/IConverter/DownloadFile", ReplyAction="http://service.weblms.ru/IConverter/DownloadFileResponse")]
         WebLMS.ConvertService.RemoteFileInfo DownloadFile(WebLMS.ConvertService.DownloadRequest request);
         
@@ -240,6 +151,44 @@ namespace WebLMS.ConvertService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://service.weblms.ru/IConverter/ConvertFile", ReplyAction="http://service.weblms.ru/IConverter/ConvertFileResponse")]
         System.Threading.Tasks.Task<WebLMS.ConvertService.ResponseFileInfo> ConvertFileAsync(WebLMS.ConvertService.UploadFileInfo request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DownloadRequest", WrapperNamespace="http://service.weblms.ru", IsWrapped=true)]
+    public partial class DownloadRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.weblms.ru", Order=0)]
+        public string Path;
+        
+        public DownloadRequest() {
+        }
+        
+        public DownloadRequest(string Path) {
+            this.Path = Path;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RemoteFileInfo", WrapperNamespace="http://service.weblms.ru", IsWrapped=true)]
+    public partial class RemoteFileInfo {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://service.weblms.ru")]
+        public long Length;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://service.weblms.ru", Order=0)]
+        public System.IO.Stream FileByteStream;
+        
+        public RemoteFileInfo() {
+        }
+        
+        public RemoteFileInfo(long Length, System.IO.Stream FileByteStream) {
+            this.Length = Length;
+            this.FileByteStream = FileByteStream;
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -269,12 +218,28 @@ namespace WebLMS.ConvertService {
                 base(binding, remoteAddress) {
         }
         
-        public WebLMS.ConvertService.RemoteFileInfo DownloadFile(WebLMS.ConvertService.DownloadRequest request) {
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WebLMS.ConvertService.RemoteFileInfo WebLMS.ConvertService.IConverter.DownloadFile(WebLMS.ConvertService.DownloadRequest request) {
             return base.Channel.DownloadFile(request);
         }
         
-        public System.Threading.Tasks.Task<WebLMS.ConvertService.RemoteFileInfo> DownloadFileAsync(WebLMS.ConvertService.DownloadRequest request) {
+        public long DownloadFile(string Path, out System.IO.Stream FileByteStream) {
+            WebLMS.ConvertService.DownloadRequest inValue = new WebLMS.ConvertService.DownloadRequest();
+            inValue.Path = Path;
+            WebLMS.ConvertService.RemoteFileInfo retVal = ((WebLMS.ConvertService.IConverter)(this)).DownloadFile(inValue);
+            FileByteStream = retVal.FileByteStream;
+            return retVal.Length;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WebLMS.ConvertService.RemoteFileInfo> WebLMS.ConvertService.IConverter.DownloadFileAsync(WebLMS.ConvertService.DownloadRequest request) {
             return base.Channel.DownloadFileAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WebLMS.ConvertService.RemoteFileInfo> DownloadFileAsync(string Path) {
+            WebLMS.ConvertService.DownloadRequest inValue = new WebLMS.ConvertService.DownloadRequest();
+            inValue.Path = Path;
+            return ((WebLMS.ConvertService.IConverter)(this)).DownloadFileAsync(inValue);
         }
         
         public WebLMS.ConvertService.ResponseFileInfo ConvertFile(WebLMS.ConvertService.UploadFileInfo request) {

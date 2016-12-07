@@ -532,6 +532,7 @@
     <Content Include="Images\wood_texture.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\common.js" />
+    <None Include="Properties\PublishProfiles\WebLMS.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
@@ -574,7 +575,6 @@
     <None Include="Service References\ConvertService\Converter.wsdl" />
     <None Include="Service References\ConvertService\Converter.xsd" />
     <None Include="Service References\ConvertService\Converter1.wsdl" />
-    <None Include="Service References\ConvertService\Converter1.xsd" />
     <None Include="Service References\ConvertService\Converter2.xsd" />
     <None Include="Service References\ConvertService\Converter3.xsd" />
     <Content Include="Service References\ConvertService\WebLMS.ConvertService.RemoteFileInfo.datasource">

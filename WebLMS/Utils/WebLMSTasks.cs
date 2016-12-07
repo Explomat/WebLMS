@@ -7,8 +7,8 @@ namespace WebLMS.Utils
 {
     public class WebLMSTasks
     {
-        private const int PERFOM_CAPACITTY = 2;
-        private const int QUEUE_CAPACITTY = 2;
+        private const int PERFOM_CAPACITTY = 5;
+        private const int QUEUE_CAPACITTY = 20;
 
         private static Dictionary<int, Task> PerfomedTasks { get; set; }
         private static Dictionary<int, Task> LazyTasks { get; set; }

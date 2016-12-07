@@ -23,7 +23,6 @@
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="Converter.xsd" MetadataType="Schema" ID="d826bd54-88d5-4f83-b9eb-dbf8116f9ce0" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd2" />
-    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="2e767b11-501d-4472-8550-16f36505cbff" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd3" />
     <MetadataFile FileName="Converter2.xsd" MetadataType="Schema" ID="a610d2be-1cf0-4ffb-bd2c-5582fb11db0b" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd0" />
     <MetadataFile FileName="Converter3.xsd" MetadataType="Schema" ID="4e3da025-e96a-4fd1-b1fe-de41fcd19714" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd1" />
     <MetadataFile FileName="Converter.wsdl" MetadataType="Wsdl" ID="a5c61b58-29fc-4fb7-9460-2e0704b2437a" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?wsdl=wsdl0" />

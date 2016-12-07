@@ -4,15 +4,17 @@
     <xsd:schema targetNamespace="http://service.weblms.ru/Imports">
       <xsd:import schemaLocation="http://localhost:49475/Converter.svc?xsd=xsd0" namespace="http://service.weblms.ru" />
       <xsd:import schemaLocation="http://localhost:49475/Converter.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:49475/Converter.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System.IO" />
-      <xsd:import schemaLocation="http://localhost:49475/Converter.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://localhost:49475/Converter.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/Message" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IConverter_DownloadFile_InputMessage">
-    <wsdl:part name="parameters" element="tns:DownloadFile" />
+  <wsdl:message name="DownloadRequest">
+    <wsdl:part name="parameters" element="tns:DownloadRequest" />
   </wsdl:message>
-  <wsdl:message name="IConverter_DownloadFile_OutputMessage">
-    <wsdl:part name="parameters" element="tns:DownloadFileResponse" />
+  <wsdl:message name="RemoteFileInfo">
+    <wsdl:part name="parameters" element="tns:RemoteFileInfo" />
+  </wsdl:message>
+  <wsdl:message name="RemoteFileInfo_Headers">
+    <wsdl:part name="Length" element="tns:Length" />
   </wsdl:message>
   <wsdl:message name="IConverter_ConvertFile_InputMessage">
     <wsdl:part name="parameters" element="tns:ConvertFile" />
@@ -22,8 +24,8 @@
   </wsdl:message>
   <wsdl:portType name="IConverter">
     <wsdl:operation name="DownloadFile">
-      <wsdl:input wsaw:Action="http://service.weblms.ru/IConverter/DownloadFile" message="tns:IConverter_DownloadFile_InputMessage" />
-      <wsdl:output wsaw:Action="http://service.weblms.ru/IConverter/DownloadFileResponse" message="tns:IConverter_DownloadFile_OutputMessage" />
+      <wsdl:input wsaw:Action="http://service.weblms.ru/IConverter/DownloadFile" name="DownloadRequest" message="tns:DownloadRequest" />
+      <wsdl:output wsaw:Action="http://service.weblms.ru/IConverter/DownloadFileResponse" name="RemoteFileInfo" message="tns:RemoteFileInfo" />
     </wsdl:operation>
     <wsdl:operation name="ConvertFile">
       <wsdl:input wsaw:Action="http://service.weblms.ru/IConverter/ConvertFile" message="tns:IConverter_ConvertFile_InputMessage" />
@@ -34,10 +36,11 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="DownloadFile">
       <soap:operation soapAction="http://service.weblms.ru/IConverter/DownloadFile" style="document" />
-      <wsdl:input>
+      <wsdl:input name="DownloadRequest">
         <soap:body use="literal" />
       </wsdl:input>
-      <wsdl:output>
+      <wsdl:output name="RemoteFileInfo">
+        <soap:header message="tns:RemoteFileInfo_Headers" part="Length" use="literal" />
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>

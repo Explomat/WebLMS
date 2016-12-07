@@ -24,28 +24,6 @@ namespace WebLMS.Controllers
     {
         private WebLMSContext _db = new WebLMSContext();
 
-        //private void SendMessage(WebLMSForm form)
-        //{
-        //    MailMessage m = new MailMessage();
-        //    SmtpClient sc = new SmtpClient();
-        //    m.From = new MailAddress("cabehok@inbox.ru");
-        //    m.To.Add("gabdsh@gmail.com");
-        //    m.Subject = String.Format("Заявка от {0}", form.Fullname);
-        //    m.Body = String.Format("ФИО - {0} \r\n Email - {1} \r\n Телефон - {2} \r\n Срочный заказ  - {3} \r\n Описание - {4}", form.Fullname, form.Email, form.Phone, form.IsQuickly, form.Description);
-        //    sc.Host = "smtp.mail.ru";
-        //    try
-        //    {
-        //        sc.Port = 25;
-        //        sc.Credentials = new System.Net.NetworkCredential("cabehok@inbox.ru", "1qaz2wsx3edc4RFV");
-        //        sc.EnableSsl = false;
-        //        sc.Send(m);
-        //    }
-        //    catch (Exception ex)
-        //    {
-               
-        //    }
-        //}
-
         public ActionResult Index()
         {
             return View();
@@ -66,39 +44,44 @@ namespace WebLMS.Controllers
         }
 
         [HttpGet]
-        public void GetVideoFile(string hash, Int64 id)
+        public void GetVideoFile(string hash, Int64 id = -1)
         {
-            if (hash == null)
-            {
-                Response.Write("Указаны неверные параметры!");
-                return;
-            }
-
-            Models.File file = _db.Files.Where(f => f.Id == id && f.Md5Hash == hash).FirstOrDefault<Models.File>();
-            if (file == null)
-            {
-                Response.Write("Указаны неверные параметры!");
-                return;
-            }
-
+            Stream fileStream = null;
+            ConverterClient client = null;
             try
             {
-                ConverterClient client = new ConverterClient("BasicHttpBinding_IConverter");
-                RemoteFileInfo fileInfo = client.DownloadFile(new DownloadRequest() { Path = file.FilePath });
-                client.Close();
+                if (hash == null || id == -1)
+                {
+                    throw new FileNotFoundException("Не найден файл!");
+                }
 
-                Response.BufferOutput = false;   // to prevent buffering 
+                Models.File file = _db.Files.Where(f => f.Id == id && f.Md5Hash == hash).FirstOrDefault<Models.File>();
+                if (file == null)
+                {
+                    throw new FileNotFoundException("Не найден файл!");
+                }
+            
+                client = new ConverterClient("BasicHttpBinding_IConverter");
+                Int64 fileLength = client.DownloadFile(file.FilePath, out fileStream);
+
+                if (fileStream == null)
+                {
+                    throw new FileNotFoundException("Не найден файл!");
+                }
+
+                Response.BufferOutput = true;   // to prevent buffering 
+                Response.Buffer = true;
                 byte[] buffer = new byte[6500];
                 int bytesRead = 0;
-
+                
                 System.Web.HttpContext.Current.Response.Clear();
                 System.Web.HttpContext.Current.Response.ClearHeaders();
                 Response.BufferOutput = false;   // to prevent buffering
                 Response.ContentType = "video/mp4";
-                Response.AddHeader("Content-Length", fileInfo.FileByteStream.Length.ToString());
-                Response.AddHeader("content-disposition", "attachment;filename=\"" + Path.GetFileName(file.FilePath) + Path.GetExtension(file.FilePath) + "\"");
+                Response.AddHeader("Content-Length", fileLength.ToString());
+                Response.AddHeader("content-disposition", "attachment;filename=\"" + Path.GetFileName(file.FilePath) + "\"");
 
-                bytesRead = fileInfo.FileByteStream.Read(buffer, 0, buffer.Length);
+                bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 
                 while (bytesRead > 0)
                 {
@@ -110,7 +93,7 @@ namespace WebLMS.Controllers
                         Response.Flush();
 
                         buffer = new byte[6500];
-                        bytesRead = fileInfo.FileByteStream.Read(buffer, 0, buffer.Length);
+                        bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 
                     }
                     else
@@ -126,10 +109,18 @@ namespace WebLMS.Controllers
             }
             finally
             {
+                if (fileStream != null)
+                {
+                    fileStream.Close();
+                }
+                if (client != null)
+                {
+                    client.Close();
+                }
                 Response.Flush();
                 Response.Close();
-                Response.End();
-                System.Web.HttpContext.Current.Response.Close();
+                //Response.End();
+                //System.Web.HttpContext.Current.Response.Close();
             }
         }
 
@@ -218,7 +209,8 @@ namespace WebLMS.Controllers
             }
 
             string rootHost = Request.Url.Scheme + "://" + Request.Url.Authority;
-            byte[] streamBytes = StreamUtils.GetBytesFromStream(fileUpload.InputStream);
+            
+            byte[] streamBytes = StreamUtils.ReadToEnd(fileUpload.InputStream);
             Task newTask = new Task(() =>
             {
                 string result = String.Empty;
@@ -236,26 +228,29 @@ namespace WebLMS.Controllers
                     _db.Files.Add(file);
                     _db.SaveChanges();
 
-                    string emailMessage = String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2} \r\nПосле разового скачивания файл удалится с сервера.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, fileInfo.Hash, file.Id);
-                    ISender emailSender = new FileSender();
-                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_done.txt"), emailMessage);
+                    string emailMessage = String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2}\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, fileInfo.Hash, file.Id);
+                    //ISender emailSender = new FileSender();
+                    //emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_done.txt"), emailMessage);
 
-                    //ISender emailSender = new EmailSender();
-                    //emailSender.SendFileLink(email, emailMessage);
-                    //emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "__done.txt"), "done!");
+                    ISender emailSender = new EmailSender();
+                    emailSender.SendFileLink(email, emailMessage);
                 }
                 catch (Exception e)
                 {
                     string emailError = String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", e.Message);
-                    //ISender emailSender = new EmailSender();
-                    //emailSender.SendFileLink(email, emailError);
+                    ISender emailSender = new EmailSender();
+                    emailSender.SendFileLink(email, emailError);
 
-                    ISender emailSender = new FileSender();
-                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_catch.txt"), e.Message);
+                    //ISender emailSender = new FileSender();
+                    //emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_catch.txt"), e.Message);
                 }
                 
             });
-            WebLMSTasks.AddTask(newTask);
+            bool isAdded = WebLMSTasks.AddTask(newTask);
+            if (!isAdded)
+            {
+                newTask.Dispose();
+            }
             //WebLMSThread.StartBackgroundThread(() =>
             //{
             //    string destDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", Path.GetFileNameWithoutExtension(fileUpload.FileName));
