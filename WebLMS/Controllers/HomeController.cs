@@ -237,7 +237,7 @@ namespace WebLMS.Controllers
                 }
                 catch (Exception e)
                 {
-                    string emailError = String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", e.Message);
+                    string emailError = String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", "Message: " + e.Message + "\r\nStack: " + e.StackTrace + "\r\nInnerException" + e.InnerException.ToString() + "\r\nInnerExceptionStack: " + e.InnerException.StackTrace);
                     ISender emailSender = new EmailSender();
                     emailSender.SendFileLink(email, emailError);
 
