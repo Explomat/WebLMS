@@ -229,20 +229,20 @@ namespace WebLMS.Controllers
                     _db.SaveChanges();
 
                     string emailMessage = String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2}\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, fileInfo.Hash, file.Id);
-                    //ISender emailSender = new FileSender();
-                    //emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_done.txt"), emailMessage);
+                    ISender emailSender = new FileSender();
+                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_done.txt"), emailMessage);
 
-                    ISender emailSender = new EmailSender();
-                    emailSender.SendFileLink(email, emailMessage);
+                    //ISender emailSender = new EmailSender();
+                    //emailSender.SendFileLink(email, emailMessage);
                 }
                 catch (Exception e)
                 {
                     string emailError = String.Format("Произошла ошибка при конвертации файла, попробуйте повторить операцию позже. Детали ошибки: \r\n{0}.\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", e.Message);
-                    ISender emailSender = new EmailSender();
-                    emailSender.SendFileLink(email, emailError);
+                    //ISender emailSender = new EmailSender();
+                    //emailSender.SendFileLink(email, emailError);
 
-                    //ISender emailSender = new FileSender();
-                    //emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_catch.txt"), e.Message);
+                    ISender emailSender = new FileSender();
+                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_catch.txt"), e.Message);
                 }
                 
             });

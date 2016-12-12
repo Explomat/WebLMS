@@ -187,14 +187,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AsyncMvcRouteHandler.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AsyncController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Content Include="DynamicData\Content\GridViewPager.ascx" />
     <Compile Include="DynamicData\Content\GridViewPager.ascx.cs">
@@ -545,6 +543,11 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <None Include="Service References\ConvertService\configuration91.svcinfo" />
     <None Include="Service References\ConvertService\configuration.svcinfo" />
+    <None Include="Service References\ConvertService\Converter1.xsd" />
+    <None Include="Service References\ConvertService\Converter2.wsdl" />
+    <None Include="Service References\ConvertService\Converter3.wsdl" />
+    <None Include="Service References\ConvertService\Converter4.xsd" />
+    <None Include="Service References\ConvertService\Converter5.xsd" />
     <None Include="Service References\ConvertService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
