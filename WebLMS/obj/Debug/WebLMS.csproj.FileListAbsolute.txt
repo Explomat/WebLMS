@@ -58,3 +58,4 @@ D:\repos\WebLMS\WebLMS\bin\AspNet.ScriptManager.jQuery.dll
 D:\repos\WebLMS\WebLMS\bin\Microsoft.AspNet.DynamicData.EFProvider.dll
 D:\repos\WebLMS\WebLMS\bin\Microsoft.AspNet.EntityDataSource.dll
 D:\repos\WebLMS\WebLMS\bin\WebLMS.dll.config
+D:\repos\WebLMS\WebLMS\obj\Debug\WebLMS.csprojResolveAssemblyReference.cache
