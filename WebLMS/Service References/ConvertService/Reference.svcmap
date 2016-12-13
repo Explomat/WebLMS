@@ -19,14 +19,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:49475/Converter.svc?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://service.weblms.ru/Converter.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="a0540ebd-34d0-449a-922c-7570bbd03eec" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd2" />
-    <MetadataFile FileName="Converter4.xsd" MetadataType="Schema" ID="f0cc67e9-4d85-4a09-b49f-9959c43c8c1b" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd0" />
-    <MetadataFile FileName="Converter5.xsd" MetadataType="Schema" ID="66cb42e6-586d-442f-9045-fd81d0901d88" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd1" />
-    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="61f0de0d-5ca7-4d05-8727-6b3766212565" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?wsdl=wsdl0" />
-    <MetadataFile FileName="Converter3.wsdl" MetadataType="Wsdl" ID="dae7ebca-9802-4f9c-a0c8-5d42b6a93289" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?wsdl" />
+    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="97921fd2-dd6b-4f26-8d62-48f6dc3f8e87" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="3e746ca7-5956-4407-9bf8-7effb87097d5" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd1" />
+    <MetadataFile FileName="Converter3.wsdl" MetadataType="Wsdl" ID="79b8a7e4-1c11-43b0-a113-1f4e6568084f" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl" />
+    <MetadataFile FileName="Converter4.xsd" MetadataType="Schema" ID="2c1eb42b-e492-46a2-b2ee-5aa75bf9f4c5" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd2" />
+    <MetadataFile FileName="Converter5.xsd" MetadataType="Schema" ID="0848f3ae-c4fb-4934-aa8f-d19b79db6399" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

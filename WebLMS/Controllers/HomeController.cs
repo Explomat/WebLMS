@@ -242,7 +242,7 @@ namespace WebLMS.Controllers
                     //emailSender.SendFileLink(email, emailError);
 
                     ISender emailSender = new FileSender();
-                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_catch.txt"), e.Message);
+                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_catch.txt"), emailError);
                 }
                 
             });

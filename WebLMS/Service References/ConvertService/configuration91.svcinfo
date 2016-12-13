@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="xb0p2+hV17XURhiBdUoMwMLFACE=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="0tw7ESxMP4v83q+Pm+rHl76T4BI=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IConverter">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IConverter" contract="ConvertService.IConverter" bindingType="basicHttpBinding" address="http://localhost:49475/Converter.svc" bindingConfiguration="BasicHttpBinding_IConverter">
+    <endpoint name="BasicHttpBinding_IConverter" contract="ConvertService.IConverter" bindingType="basicHttpBinding" address="http://service.weblms.ru/Converter.svc" bindingConfiguration="BasicHttpBinding_IConverter">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://localhost:49475/Converter.svc</serializedValue>
+          <serializedValue>http://service.weblms.ru/Converter.svc</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

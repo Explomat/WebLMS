@@ -1,47 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://service.weblms.ru" elementFormDefault="qualified" targetNamespace="http://service.weblms.ru" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:49475/Converter.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/Message" />
-  <xs:element name="DownloadRequest">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="Path" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RemoteFileInfo">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.microsoft.com/Message" name="FileByteStream" type="q1:StreamBody" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="Length" type="xs:long" />
-  <xs:element name="ConvertFile">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="request" nillable="true" type="tns:UploadFileInfo" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:complexType name="UploadFileInfo">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="ByteArray" nillable="true" type="xs:base64Binary" />
-      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="UploadFileInfo" nillable="true" type="tns:UploadFileInfo" />
-  <xs:element name="ConvertFileResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="ConvertFileResult" nillable="true" type="tns:ResponseFileInfo" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:complexType name="ResponseFileInfo">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Hash" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Path" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ResponseFileInfo" nillable="true" type="tns:ResponseFileInfo" />
+<xs:schema xmlns:tns="http://schemas.microsoft.com/Message" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/Message" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="StreamBody">
+    <xs:restriction base="xs:base64Binary" />
+  </xs:simpleType>
 </xs:schema>
