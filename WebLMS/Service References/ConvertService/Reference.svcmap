@@ -19,6 +19,7 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
+<<<<<<< HEAD
     <MetadataSource Address="http://10.1.20.67:8090/Converter.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
@@ -27,6 +28,16 @@
     <MetadataFile FileName="Converter5.xsd" MetadataType="Schema" ID="4bec61b4-b6da-47a5-af12-fb9340d32b08" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?xsd=xsd0" />
     <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="d4804133-1a6c-4dac-a50a-18a0ad2cb8e8" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?wsdl" />
     <MetadataFile FileName="Converter3.wsdl" MetadataType="Wsdl" ID="3a6fbe74-3b9a-43b4-87c3-52c199d41d91" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?wsdl=wsdl0" />
+=======
+    <MetadataSource Address="http://service.weblms.ru/Converter.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="97921fd2-dd6b-4f26-8d62-48f6dc3f8e87" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="3e746ca7-5956-4407-9bf8-7effb87097d5" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd1" />
+    <MetadataFile FileName="Converter3.wsdl" MetadataType="Wsdl" ID="79b8a7e4-1c11-43b0-a113-1f4e6568084f" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl" />
+    <MetadataFile FileName="Converter4.xsd" MetadataType="Schema" ID="2c1eb42b-e492-46a2-b2ee-5aa75bf9f4c5" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd2" />
+    <MetadataFile FileName="Converter5.xsd" MetadataType="Schema" ID="0848f3ae-c4fb-4934-aa8f-d19b79db6399" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd0" />
+>>>>>>> origin/hangfire
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://service.weblms.ru" elementFormDefault="qualified" targetNamespace="http://service.weblms.ru" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<<<<<<< HEAD
   <xs:import schemaLocation="http://10.1.20.67:8090/Converter.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/Message" />
+=======
+  <xs:import schemaLocation="http://service.weblms.ru/Converter.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/Message" />
+>>>>>>> origin/hangfire
   <xs:element name="DownloadRequest">
     <xs:complexType>
       <xs:sequence>
