@@ -19,14 +19,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:49475/Converter.svc?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://10.1.20.67:8090/Converter.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="a0540ebd-34d0-449a-922c-7570bbd03eec" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd2" />
-    <MetadataFile FileName="Converter4.xsd" MetadataType="Schema" ID="f0cc67e9-4d85-4a09-b49f-9959c43c8c1b" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd0" />
-    <MetadataFile FileName="Converter5.xsd" MetadataType="Schema" ID="66cb42e6-586d-442f-9045-fd81d0901d88" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?xsd=xsd1" />
-    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="61f0de0d-5ca7-4d05-8727-6b3766212565" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?wsdl=wsdl0" />
-    <MetadataFile FileName="Converter3.wsdl" MetadataType="Wsdl" ID="dae7ebca-9802-4f9c-a0c8-5d42b6a93289" SourceId="1" SourceUrl="http://localhost:49475/Converter.svc?wsdl" />
+    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="f4c2e185-ad34-4d4e-9b53-a9ba48064f1c" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?xsd=xsd2" />
+    <MetadataFile FileName="Converter4.xsd" MetadataType="Schema" ID="ba0307b4-9b75-475f-82c1-e3e62a784d0f" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?xsd=xsd1" />
+    <MetadataFile FileName="Converter5.xsd" MetadataType="Schema" ID="4bec61b4-b6da-47a5-af12-fb9340d32b08" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?xsd=xsd0" />
+    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="d4804133-1a6c-4dac-a50a-18a0ad2cb8e8" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?wsdl" />
+    <MetadataFile FileName="Converter3.wsdl" MetadataType="Wsdl" ID="3a6fbe74-3b9a-43b4-87c3-52c199d41d91" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?wsdl=wsdl0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
