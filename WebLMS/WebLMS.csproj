@@ -544,17 +544,11 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <None Include="Service References\ConvertService\configuration91.svcinfo" />
     <None Include="Service References\ConvertService\configuration.svcinfo" />
-    <None Include="Service References\ConvertService\Converter1.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\ConvertService\Converter2.wsdl" />
-    <None Include="Service References\ConvertService\Converter3.wsdl" />
-    <None Include="Service References\ConvertService\Converter4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ConvertService\Converter5.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Service References\ConvertService\Converter21.wsdl" />
+    <None Include="Service References\ConvertService\Converter3.xsd" />
+    <None Include="Service References\ConvertService\Converter31.xsd" />
+    <None Include="Service References\ConvertService\Converter32.xsd" />
     <None Include="Service References\ConvertService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -582,11 +576,6 @@
     <Content Include="DynamicData\Site.master" />
     <Content Include="DynamicData\web.config" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
-    <None Include="Service References\ConvertService\Converter.wsdl" />
-    <None Include="Service References\ConvertService\Converter.xsd" />
-    <None Include="Service References\ConvertService\Converter1.wsdl" />
-    <None Include="Service References\ConvertService\Converter2.xsd" />
-    <None Include="Service References\ConvertService\Converter3.xsd" />
     <Content Include="Service References\ConvertService\WebLMS.ConvertService.RemoteFileInfo.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>

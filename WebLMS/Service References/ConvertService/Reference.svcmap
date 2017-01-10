@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="787a28cb-7589-40c5-bf7a-d8e25c30b860" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4125746a-67ba-44a8-bfd5-18800d70dac9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,25 +19,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-<<<<<<< HEAD
-    <MetadataSource Address="http://10.1.20.67:8090/Converter.svc?wsdl" Protocol="http" SourceId="1" />
-  </MetadataSources>
-  <Metadata>
-    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="f4c2e185-ad34-4d4e-9b53-a9ba48064f1c" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?xsd=xsd2" />
-    <MetadataFile FileName="Converter4.xsd" MetadataType="Schema" ID="ba0307b4-9b75-475f-82c1-e3e62a784d0f" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?xsd=xsd1" />
-    <MetadataFile FileName="Converter5.xsd" MetadataType="Schema" ID="4bec61b4-b6da-47a5-af12-fb9340d32b08" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?xsd=xsd0" />
-    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="d4804133-1a6c-4dac-a50a-18a0ad2cb8e8" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?wsdl" />
-    <MetadataFile FileName="Converter3.wsdl" MetadataType="Wsdl" ID="3a6fbe74-3b9a-43b4-87c3-52c199d41d91" SourceId="1" SourceUrl="http://10.1.20.67:8090/Converter.svc?wsdl=wsdl0" />
-=======
     <MetadataSource Address="http://service.weblms.ru/Converter.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="97921fd2-dd6b-4f26-8d62-48f6dc3f8e87" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl=wsdl0" />
-    <MetadataFile FileName="Converter1.xsd" MetadataType="Schema" ID="3e746ca7-5956-4407-9bf8-7effb87097d5" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd1" />
-    <MetadataFile FileName="Converter3.wsdl" MetadataType="Wsdl" ID="79b8a7e4-1c11-43b0-a113-1f4e6568084f" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl" />
-    <MetadataFile FileName="Converter4.xsd" MetadataType="Schema" ID="2c1eb42b-e492-46a2-b2ee-5aa75bf9f4c5" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd2" />
-    <MetadataFile FileName="Converter5.xsd" MetadataType="Schema" ID="0848f3ae-c4fb-4934-aa8f-d19b79db6399" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd0" />
->>>>>>> origin/hangfire
+    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="713b5354-d885-4e9d-8286-5e2ced047d99" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Converter3.xsd" MetadataType="Schema" ID="81e87f05-c9f9-440a-bbc0-bf489edae4bf" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd1" />
+    <MetadataFile FileName="Converter21.wsdl" MetadataType="Wsdl" ID="627c3334-da16-4dc9-a5d7-ba9decba58a2" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl" />
+    <MetadataFile FileName="Converter31.xsd" MetadataType="Schema" ID="c6887dca-2ec4-41a0-861c-84d37e2292a1" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd2" />
+    <MetadataFile FileName="Converter32.xsd" MetadataType="Schema" ID="0c0b4d44-d95f-43ec-ad32-3c9b5ea292a3" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

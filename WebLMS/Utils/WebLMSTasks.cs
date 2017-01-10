@@ -7,16 +7,40 @@ namespace WebLMS.Utils
 {
     public class WebLMSTasks
     {
-        private const int PERFOM_CAPACITTY = 5;
-        private const int QUEUE_CAPACITTY = 20;
+        private static int DEFAULT_PERFORM_CAPACITTY = 5;
+        private static int DEFAULT_QUEUE_CAPACITTY = 20;
 
         private static Dictionary<int, Task> PerfomedTasks { get; set; }
         private static Dictionary<int, Task> LazyTasks { get; set; }
 
         static WebLMSTasks()
         {
-            PerfomedTasks = new Dictionary<int, Task>(PERFOM_CAPACITTY);
-            LazyTasks = new Dictionary<int, Task>(QUEUE_CAPACITTY);
+            PerfomedTasks = new Dictionary<int, Task>(PerformCapacity);
+            LazyTasks = new Dictionary<int, Task>(QueueCapacity);
+        }
+
+        public static int PerformCapacity
+        {
+            get
+            {
+                return DEFAULT_PERFORM_CAPACITTY;
+            }
+            set
+            {
+                DEFAULT_PERFORM_CAPACITTY = value;
+            }
+        }
+
+        public static int QueueCapacity
+        {
+            get
+            {
+                return DEFAULT_QUEUE_CAPACITTY;
+            }
+            set
+            {
+                DEFAULT_QUEUE_CAPACITTY = value;
+            }
         }
 
         private static void ContinueWith(Task task)
@@ -52,7 +76,7 @@ namespace WebLMS.Utils
             int perfomedTasksCount = PerfomedTasks.Count;
             int queueTasksCount = LazyTasks.Count;
 
-            if (perfomedTasksCount < PERFOM_CAPACITTY)
+            if (perfomedTasksCount < PerformCapacity)
             {
                 PerfomedTasks.Add(task.Id, task);
                 ContinueWith(task);
@@ -61,7 +85,7 @@ namespace WebLMS.Utils
                 System.Diagnostics.Debug.WriteLine(string.Format("Start task in performed: {0}", task.Id));
                 return true;
             }
-            else if (queueTasksCount < QUEUE_CAPACITTY)
+            else if (queueTasksCount < QueueCapacity)
             {
                 LazyTasks.Add(task.Id, task);
                 ContinueWith(task);
