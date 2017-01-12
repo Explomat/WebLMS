@@ -212,7 +212,7 @@ namespace WebLMS.Controllers
             
             byte[] streamBytes = StreamUtils.ReadToEnd(fileUpload.InputStream);
             string result = String.Empty;
-            ConverterClient client = new ConverterClient("BasicHttpBinding_IConverter");
+            ConverterClient client = new ConverterClient("WSHttpBinding_IConverter");
 
             Task newTask = client.ConvertFileAsync(new UploadFileInfo() { ByteArray = streamBytes, Email = email }).ContinueWith(t =>
             {

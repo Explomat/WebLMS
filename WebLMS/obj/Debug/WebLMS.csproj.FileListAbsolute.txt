@@ -58,4 +58,3 @@ D:\repos\WebLMS\WebLMS\bin\AForge.dll
 D:\repos\WebLMS\WebLMS\bin\AForge.Video.xml
 D:\repos\WebLMS\WebLMS\bin\NReco.VideoConverter.xml
 D:\repos\WebLMS\WebLMS\bin\AForge.xml
-D:\repos\WebLMS\WebLMS\obj\Debug\WebLMS.csprojResolveAssemblyReference.cache

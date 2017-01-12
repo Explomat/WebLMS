@@ -22,11 +22,11 @@
     <MetadataSource Address="http://service.weblms.ru/Converter.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="713b5354-d885-4e9d-8286-5e2ced047d99" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl=wsdl0" />
-    <MetadataFile FileName="Converter3.xsd" MetadataType="Schema" ID="81e87f05-c9f9-440a-bbc0-bf489edae4bf" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd1" />
-    <MetadataFile FileName="Converter21.wsdl" MetadataType="Wsdl" ID="627c3334-da16-4dc9-a5d7-ba9decba58a2" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl" />
-    <MetadataFile FileName="Converter31.xsd" MetadataType="Schema" ID="c6887dca-2ec4-41a0-861c-84d37e2292a1" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd2" />
-    <MetadataFile FileName="Converter32.xsd" MetadataType="Schema" ID="0c0b4d44-d95f-43ec-ad32-3c9b5ea292a3" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd0" />
+    <MetadataFile FileName="Converter2.wsdl" MetadataType="Wsdl" ID="5331abf1-2f22-4df5-8df4-e69b2c06c633" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Converter3.xsd" MetadataType="Schema" ID="8af30f4f-e924-434e-bf4e-8fa8ab8cc737" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd1" />
+    <MetadataFile FileName="Converter21.wsdl" MetadataType="Wsdl" ID="e154c3ca-5f53-4337-b917-4e8ec3af1f0f" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?wsdl" />
+    <MetadataFile FileName="Converter31.xsd" MetadataType="Schema" ID="a3050073-8db5-40d5-a2fc-927fbd5d5f6d" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd2" />
+    <MetadataFile FileName="Converter32.xsd" MetadataType="Schema" ID="81527d2b-8e6e-4524-8aab-1fba97476942" SourceId="1" SourceUrl="http://service.weblms.ru/Converter.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

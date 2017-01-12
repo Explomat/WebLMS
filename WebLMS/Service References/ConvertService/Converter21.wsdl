@@ -3,8 +3,14 @@
   <wsdl:import namespace="http://service.weblms.ru" location="http://service.weblms.ru/Converter.svc?wsdl=wsdl0" />
   <wsdl:types />
   <wsdl:service name="Converter">
-    <wsdl:port name="BasicHttpBinding_IConverter" binding="i0:BasicHttpBinding_IConverter">
-      <soap:address location="http://service.weblms.ru/Converter.svc" />
+    <wsdl:port name="WSHttpBinding_IConverter" binding="i0:WSHttpBinding_IConverter">
+      <soap12:address location="http://service.weblms.ru/Converter.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://service.weblms.ru/Converter.svc</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Spn>host/win5155.smarterasp.net</Spn>
+        </Identity>
+      </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
