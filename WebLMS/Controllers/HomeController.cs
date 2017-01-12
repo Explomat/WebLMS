@@ -43,86 +43,84 @@ namespace WebLMS.Controllers
             return View(_db.WebLMSForms.ToList());
         }
 
-        [HttpGet]
-        public void GetVideoFile(string hash, Int64 id = -1)
-        {
-            Stream fileStream = null;
-            ConverterClient client = null;
-            try
-            {
-                if (hash == null || id == -1)
-                {
-                    throw new FileNotFoundException("Не найден файл!");
-                }
+        //[HttpGet]
+        //public void GetVideoFile(string hash, Int64 id = -1)
+        //{
+        //    Stream fileStream = null;
+        //    ConverterClient client = null;
+        //    try
+        //    {
+        //        if (hash == null || id == -1)
+        //        {
+        //            throw new FileNotFoundException("Не найден файл!");
+        //        }
 
-                Models.File file = _db.Files.Where(f => f.Id == id && f.Md5Hash == hash).FirstOrDefault<Models.File>();
-                if (file == null)
-                {
-                    throw new FileNotFoundException("Не найден файл!");
-                }
+        //        Models.File file = _db.Files.Where(f => f.Id == id && f.Md5Hash == hash).FirstOrDefault<Models.File>();
+        //        if (file == null)
+        //        {
+        //            throw new FileNotFoundException("Не найден файл!");
+        //        }
             
-                client = new ConverterClient("BasicHttpBinding_IConverter");
-                Int64 fileLength = client.DownloadFile(file.FilePath, out fileStream);
+        //        client = new ConverterClient("BasicHttpBinding_IConverter");
+        //        Int64 fileLength = client.DownloadFile(file.FilePath, out fileStream);
 
-                if (fileStream == null)
-                {
-                    throw new FileNotFoundException("Не найден файл!");
-                }
+        //        if (fileStream == null)
+        //        {
+        //            throw new FileNotFoundException("Не найден файл!");
+        //        }
 
-                Response.BufferOutput = true;   // to prevent buffering 
-                Response.Buffer = true;
-                byte[] buffer = new byte[6500];
-                int bytesRead = 0;
+        //        Response.BufferOutput = true;   // to prevent buffering 
+        //        Response.Buffer = true;
+        //        byte[] buffer = new byte[6500];
+        //        int bytesRead = 0;
                 
-                System.Web.HttpContext.Current.Response.Clear();
-                System.Web.HttpContext.Current.Response.ClearHeaders();
-                Response.BufferOutput = false;   // to prevent buffering
-                Response.ContentType = "video/mp4";
-                Response.AddHeader("Content-Length", fileLength.ToString());
-                Response.AddHeader("content-disposition", "attachment;filename=\"" + Path.GetFileName(file.FilePath) + "\"");
+        //        System.Web.HttpContext.Current.Response.Clear();
+        //        System.Web.HttpContext.Current.Response.ClearHeaders();
+        //        Response.BufferOutput = false;   // to prevent buffering
+        //        Response.ContentType = "video/mp4";
+        //        Response.AddHeader("Content-Length", fileLength.ToString());
+        //        Response.AddHeader("content-disposition", "attachment;filename=\"" + Path.GetFileName(file.FilePath) + "\"");
 
-                bytesRead = fileStream.Read(buffer, 0, buffer.Length);
+        //        bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 
-                while (bytesRead > 0)
-                {
-                    // Verify that the client is connected.
-                    if (Response.IsClientConnected)
-                    {
-                        Response.OutputStream.Write(buffer, 0, bytesRead);
-                        // Flush the data to the HTML output.
-                        Response.Flush();
+        //        while (bytesRead > 0)
+        //        {
+        //            // Verify that the client is connected.
+        //            if (Response.IsClientConnected)
+        //            {
+        //                Response.OutputStream.Write(buffer, 0, bytesRead);
+        //                // Flush the data to the HTML output.
+        //                Response.Flush();
 
-                        buffer = new byte[6500];
-                        bytesRead = fileStream.Read(buffer, 0, buffer.Length);
+        //                buffer = new byte[6500];
+        //                bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 
-                    }
-                    else
-                    {
-                        bytesRead = -1;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Trap the error, if any.
-                System.Web.HttpContext.Current.Response.Write("Error : " + ex.Message);
-            }
-            finally
-            {
-                if (fileStream != null)
-                {
-                    fileStream.Close();
-                }
-                if (client != null)
-                {
-                    client.Close();
-                }
-                Response.Flush();
-                Response.Close();
-                //Response.End();
-                //System.Web.HttpContext.Current.Response.Close();
-            }
-        }
+        //            }
+        //            else
+        //            {
+        //                bytesRead = -1;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Trap the error, if any.
+        //        System.Web.HttpContext.Current.Response.Write("Error : " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        if (fileStream != null)
+        //        {
+        //            fileStream.Close();
+        //        }
+        //        if (client != null)
+        //        {
+        //            client.Close();
+        //        }
+        //        Response.Flush();
+        //        Response.Close();
+        //    }
+        //}
 
         //[HttpGet]
         //public void GetVideoFile(string hash, Int64 id)
@@ -217,20 +215,27 @@ namespace WebLMS.Controllers
                 try
                 {
                     ConverterClient client = new ConverterClient("BasicHttpBinding_IConverter");
-                    ResponseFileInfo fileInfo = client.ConvertFile(new UploadFileInfo() { ByteArray = streamBytes, Email = email});
+                    client.ConvertFile(new UploadFileInfo() { ByteArray = streamBytes, Email = email});
                     client.Close();
 
-                    Models.File file = new Models.File();
-                    file.Md5Hash = fileInfo.Hash;
-                    file.FilePath = fileInfo.Path;
-                    file.EmailWhoConverted = email;
-                    file.Datetime = DateTime.Now;
-                    _db.Files.Add(file);
-                    _db.SaveChanges();
-
-                    string emailMessage = String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2}\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, fileInfo.Hash, file.Id);
                     ISender emailSender = new FileSender();
-                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_done.txt"), emailMessage);
+                    emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_done.txt"), "done");
+
+                    //ConverterClient client = new ConverterClient("BasicHttpBinding_IConverter");
+                    //ResponseFileInfo fileInfo = client.ConvertFile(new UploadFileInfo() { ByteArray = streamBytes, Email = email});
+                    //client.Close();
+
+                    //Models.File file = new Models.File();
+                    //file.Md5Hash = fileInfo.Hash;
+                    //file.FilePath = fileInfo.Path;
+                    //file.EmailWhoConverted = email;
+                    //file.Datetime = DateTime.Now;
+                    //_db.Files.Add(file);
+                    //_db.SaveChanges();
+
+                    //string emailMessage = String.Format("Ссылка на скачивание видеофайла: {0}/Home/GetVideoFile/?hash={1}&id={2}\r\nС уважением, компания WebLMS.\r\nhttp://weblms.ru", rootHost, fileInfo.Hash, file.Id);
+                    //ISender emailSender = new FileSender();
+                    //emailSender.SendFileLink(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TempVideoFiles", fileUpload.FileName + "_done.txt"), emailMessage);
 
                     //ISender emailSender = new EmailSender();
                     //emailSender.SendFileLink(email, emailMessage);
